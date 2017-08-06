@@ -1,0 +1,7 @@
+bd692a,127.0.0.1,GET,http://localhost:8000/,1501870248,,200
+ce0f9f,127.0.0.1,GET,http://localhost:8000/lucky/number,1501950747,,200
+eda4cf,127.0.0.1,GET,http://localhost:8000/lucky/number,1501950825,,200
+542632,127.0.0.1,GET,http://localhost:8000/lucky/number,1501950859,df1c53,200
+df1c53,127.0.0.1,GET,http://localhost:8000/lucky/number,1501950859,,404
+d2d5fe,127.0.0.1,GET,http://localhost:8000/lucky/number,1501950870,,200
+c9ee2c,127.0.0.1,GET,http://localhost:8000/lucky/number,1501951045,,200
