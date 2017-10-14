@@ -1,0 +1,54 @@
+body { background: white; font: 18px/1.5 sans-serif; }
+h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
+h1 { font-size: 36px; }
+h2 { font-size: 21px; margin-bottom: 1em; }
+p { margin: 0 0 1em 0; }
+a { color: #0000F0; }
+a:hover { text-decoration: none; }
+small{
+    display: block;
+    font-size: 60%;
+    margin: 10px;
+    color: grey;
+}
+
+#wrapper { margin: 1em auto;}
+#welcome, #status { margin-bottom: 2em; }
+#welcome h1 span { display: block; font-size: 75%; }
+
+#inscription h4, #emargement h4{
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#inscription select{
+    height: 30px;
+    display: block;
+    margin: 0 auto;
+    width: 80%;
+    font-size: 15px;
+}
+
+#inscription input, #emargement  input{
+    width: 80%;
+    height: 40px;
+    margin: 0 auto;
+    border: 1px solid grey;
+    font-size: 15px;
+    line-height: 3;
+    display: block;
+    padding: 0 15px;
+    text-transform: uppercase;
+}
+
+input::-webkit-input-placeholder {
+    text-transform: none !important;
+}
+
+button[type="submit"]{
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    height: 50px;
+    width: 300px;
+}

@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://open.gqui.eu/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^open.gqui.eu$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^www.open.gqui.eu$
+RewriteCond %{REQUEST_URI} !web/
+RewriteRule (.*) /web/$1 [L]
