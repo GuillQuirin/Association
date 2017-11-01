@@ -1,13 +1,9 @@
 Config.class.php
 /nbproject
-/var/cache/*
-/var/logs/
-/var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
+/var/*
 /vendor/*
 # Parameters
 /app/config/parameters.yml
 /app/config/parameters.ini
+/app/config/parameters.prod.yml
 \.idea/
