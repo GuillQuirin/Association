@@ -33,3 +33,13 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    #################################################
+
+    #app.custom_mailer: # attention à l'indentation !
+    #    class: 'AppBundle\Mailer\CustomMailer'
+    #    public: true
+    #    arguments:
+    #        - '@mailer'
+    #        - '@twig'        # @ correspond à un service
+    #        - '%email_from%' # % correspond à des parametres

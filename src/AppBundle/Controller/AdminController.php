@@ -16,10 +16,10 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 
-class YoloController extends Controller
+class AdminController extends Controller
 {
     /**
-     * @Route("/yolo", name="admin")
+     * @Route("/admin", name="admin")
      */
     public function indexAction(Request $request)
     {
