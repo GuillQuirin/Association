@@ -1,3 +1,11 @@
+#gif_blog:
+    #resource: "@GifBlogBundle/Controller/"
+    #type:     annotation
+    #prefix:   /
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+#logout:
+    #path: '/logout'
