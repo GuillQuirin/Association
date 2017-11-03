@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            <h4><strong>C'est la première fois que je participe à l'association, comment m'inscrire ?</strong></h4>
+            
+            <p>Il suffit s'enregistrer ses coordonnées sur le site à chaque séance d'association. Le staff vous remettra un code qu'il faudra indiquer pour garantir votre présence et ainsi obtenir votre point OPEN.</p>
+
+            <h4><strong>Comment obtenir 1 OPEN au cours d'une séance organisée par l'association ?</strong></h4>
+
+            <p>
+                Après avoir joué, le staff de l'association vous remettra un code à usage unique, à saisir sur cette page avec vos coordonnées.
+                Cela permet d'enregistrer automatiquement votre participation et évite les oublis sur fichier Excel.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div id="inscription" class="col-xs-12 offset-md-3 col-md-6">
+            <h4>
+                Inscription
+                <small>* : obligatoire</small> 
+            </h4>
+            {{ form(form_inscri, {'method': 'POST'}) }}
+        </div>
+    </div>
+{% endblock %}
+

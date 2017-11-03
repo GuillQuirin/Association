@@ -16,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 
-class AdminController extends Controller
+class StaffController extends Controller
 {
     /**
      * @Route("/admin", name="admin")
