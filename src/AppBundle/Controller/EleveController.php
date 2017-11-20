@@ -107,4 +107,32 @@ class EleveController extends Controller
 
         return $this->render('open_eleve/inscription.html.twig', $array);
     }
+    /**
+     * @Route("/eleves", name="eleves")
+     */
+    public function elevesAction(Request $request)
+    {
+        
+        $em = $this->getDoctrine()->getManager();
+        $eleve = $em->getRepository('AppBundle:Eleve')->findAll();
+      
+        return $this->render('open_eleve\listeEleve.html.twig', [
+            'Eleves'=>$eleve,
+        ]);
+    }
+     /**
+     * @Route("/delete/{id}", name="membre_supprimerInvitation")
+     */
+    public function supprimerEleveAction($id, Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Amis');
+        // query for a single product matching the given name and price
+        $eleve = $repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($eleve);
+        $em->flush();
+        $this->addFlash('success', "Bien supprimer");
+        return $this->redirectToRoute('eleves');
+
+    }
 }

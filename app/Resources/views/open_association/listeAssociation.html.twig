@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            {% for association in Associations %}
+                    <div class="card-content">
+                        <table class="table table-striped">
+                            <tr>
+                                <td class="col s3">{{association.nom}}</td>
+                                 {% if association.is_active==1 %}
+                                <td class="col s3">yep</td>
+                                {% endif %}
+                           </tr>
+                        </table>  
+                   </div>
+                   <hr>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
