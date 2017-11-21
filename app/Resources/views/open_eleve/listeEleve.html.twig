@@ -2,26 +2,23 @@
 
 {% block body %}
     <div class="row">
-        <div class="panel panel-default">
-        <!-- Default panel contents -->
-        <div class="panel-heading">
-            <form action="" method="">
-                <input type="text" name="search">
-                <button>
-            </form>
-        </div>
-            <div class="panel-body">
-                  {% for eleve in Eleves %}
-                        <div class="col-md-12">
-                            <table class="table table-striped">
-                                <tr>
-                                   <td>{{eleve.prenom}} {{eleve.nom}} </td>
-                                   <td>{{eleve.annee}}</td>
-                                </tr>
-                            </table>  
-                        </div>
-                  {% endfor %}
-            </div>
+        <div class="col-xs-12 col-md-12">
+            <table class="table table-striped datatable_esgi">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Promotion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for eleve in Eleves %}
+                        <tr>
+                           <td>{{eleve.prenom}} {{eleve.nom}} </td>
+                           <td>{{eleve.annee}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 class EleveController extends Controller
 {
     /**
-     * @Route("/inscipt", name="inscipt")
+     * @Route("/inscript", name="inscript")
      */
     public function inscriptionAction(Request $request)
     {
@@ -107,6 +107,7 @@ class EleveController extends Controller
 
         return $this->render('open_eleve/inscription.html.twig', $array);
     }
+
     /**
      * @Route("/eleves", name="eleves")
      */

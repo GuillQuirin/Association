@@ -3,19 +3,26 @@
 {% block body %}
     <div class="row">
         <div class="col-xs-12 col-md-12">
-            {% for association in Associations %}
-                    <div class="card-content">
-                        <table class="table table-striped">
-                            <tr>
-                                <td class="col s3">{{association.nom}}</td>
-                                 {% if association.is_active==1 %}
-                                <td class="col s3">yep</td>
+            <table class="table table-striped datatable_esgi">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Actif</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for association in Associations %}
+                        <tr>
+                            <td class="col s3">{{association.nom}}</td>
+                            <td class="col s3">
+                                {% if association.is_active==1 %}
+                                    yep
                                 {% endif %}
-                           </tr>
-                        </table>  
-                   </div>
-                   <hr>
-            {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

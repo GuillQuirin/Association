@@ -12,4 +12,18 @@ $(document).ready(function(){
 		}
 	});
 
+
+	//DataTables
+	$('.datatable_esgi').each(function(){
+		$(this).DataTable( {
+	        "order": [[ 1, "desc" ]],
+	        "language": {
+	            "lengthMenu": "Affichage de _MENU_ lignes par page",
+	            "zeroRecords": "Aucun résultat trouvé",
+	            "info": "Page n° _PAGE_ sur _PAGES_",
+	            "infoEmpty": "Pas de résultat trouvé",
+	            "infoFiltered": "(filtre sur un total de _MAX_ lignes)"
+	        }
+	    });
+	});
 });
