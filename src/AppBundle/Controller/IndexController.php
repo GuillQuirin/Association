@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Eleve;
-use AppBundle\Entity\Code;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -33,6 +32,23 @@ class IndexController extends Controller
         
         
         return $this->render('default/index.html.twig',array(
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ));
+    }
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction(Request $request, AuthenticationUtils $authUtils)
+    {
+        // get the login error if there is one
+        $error = $authUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authUtils->getLastUsername();
+        var_dump($lastUsername);
+        
+        return $this->render('open_eleve/profil.html.twig',array(
             'last_username' => $lastUsername,
             'error'         => $error,
         ));

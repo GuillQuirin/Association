@@ -23,45 +23,7 @@ class StaffController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $code = new Code();
-
-        $formGeneration = $this->createFormBuilder($code)
-                    ->add('save', SubmitType::class, array('label' => "Générer un code"))
-                    ->getForm();
-
-
-        //Gestion de la soumission du formulaire
-        $formGeneration->handleRequest($request);
-        if($formGeneration->isSubmitted() && $formGeneration->isValid()){
-
-            do{
-                $open = $code->generateCode();
-                $open_BDD = $this->getDoctrine()
-                                 ->getRepository(Code::class)
-                                 ->findOneByOpen($open);
-            }
-            while($open_BDD); //Si jamais il existe déjà un code similaire en BDD           
-
-            // ... perform some action, such as saving the task to the database
-            // for example, if Task is a Doctrine entity, save it!
-            $code->setOpen($open);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($code);
-            $em->flush();
-        
-            $this->addFlash(
-                'notice',
-                'Code : '.$open
-            );
-
-            return $this->redirectToRoute('admin');
-        }
-
-
-        $array = [
-            'form_gener' => $formGeneration->createView()
-        ];
-
-        return $this->render('default/admin.html.twig', $array);
+       
+        return $this->render('default/admin.html.twig', []);
     }
 }

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="open_staff")
  */
 
-class Staff implements UserInterface{
+class Staff {
 
 	/**
     * @ORM\Column(type="integer")

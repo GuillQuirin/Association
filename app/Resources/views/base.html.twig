@@ -29,14 +29,18 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <div class="nav navbar-nav navbar-right">
-                    <form action="{{ path('homepage') }}" method="post" >
-                        <label for="username">Username:</label>
-                        <input type="text" id="username" name="_username" value="" />
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="_password" />
-                        <button type="submit">login</button>
-                    </form>
-                 
+                    {% if app.user == null %}
+                        <form action="{{ path('login') }}" method="post" >
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="_username" value="" />
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="_password" />
+                            <button type="submit">login</button>
+                        </form>
+                    {% else %}
+                      {{ app.user.prenom }} {{ app.user.nom }}
+                      <a class="" href="{{ url('logout') }}">Se déconnecter</a>
+                    {% endif%}
                 </div>
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
