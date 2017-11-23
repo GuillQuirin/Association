@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Eleve;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,18 +22,15 @@ class IndexController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request, AuthenticationUtils $authUtils)
+    public function indexAction(Request $request)
     {
-        // get the login error if there is one
-        $error = $authUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authUtils->getLastUsername();
         
-        
+        $session = $request->getSession();
+        if($this->getUser()){
+           return $this->redirectToRoute('account');
+        }
         return $this->render('default/index.html.twig',array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
+           
         ));
     }
     /**
@@ -46,13 +43,17 @@ class IndexController extends Controller
 
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
+        $em = $this->getDoctrine()->getManager();
         
+        $participations = $em->getRepository('AppBundle:Association')->findAll();
+
         /*if($lastUsername)
             return $this->redirectToRoute('account');
         else*/
-            return $this->render('open_eleve/profil.html.twig',array(
+            return $this->render('open_eleve/account.html.twig',array(
                 'last_username' => $lastUsername,
                 'error'         => $error,
+                'Participations' => $participations
             ));
     }
 }

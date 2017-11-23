@@ -75,7 +75,7 @@ class UserController extends Controller
             'form_account' => $form->createView()
         ];
 
-        return $this->render('open_eleve/profil.html.twig',$array);
+        return $this->render('open_eleve/account.html.twig',$array);
     }
 
      /**

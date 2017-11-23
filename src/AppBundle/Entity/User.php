@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="open_user")
+ * @ORM\Table(name="user")
  */
 
 class User  implements UserInterface{

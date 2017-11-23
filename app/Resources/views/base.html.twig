@@ -28,16 +28,21 @@
 
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <div class="nav navbar-nav navbar-right">
+                <div class="nav navbar-nav navbar-right top">
+                    <br>
                     {% if app.user == null %}
-                        <a class="" href="{{ url('inscript') }}">Inscription</a>
-                        <form action="{{ path('login') }}" method="post" >
-                            <label for="username">Adresse email:</label>
-                            <input type="email" id="username" name="_username" value="" required>
-                            <label for="password">Mot de passe :</label>
-                            <input type="password" id="password" name="_password" required>
-                            <button type="submit">login</button>
+                        <form  class="form-inline" action="{{ path('login') }}" method="post" >
+                            <div class="form-group">
+                                <label for="username">Adresse email:</label>
+                                <input class="form-control" type="email" id="username" name="_username" value="" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Mot de passe :</label>
+                                <input class="form-control" type="password" id="password" name="_password" required>
+                            </div>
+                             <button type="submit">login</button>
                         </form>
+                        <a class="pull-right" href="{{ url('inscript') }}">Inscription</a>
                     {% else %}
                       Bonjour
                       <a class="" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
