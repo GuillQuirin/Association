@@ -1,10 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+	
+    <div class="row">
+        <div  class="col-xs-12 col-md-12">
+    		<h3>Vos participations du semestre</h3>
+    		<table id="" class="table table-striped datatable_esgi">    
+				<thead>
+					<tr>
+						<th>Association</th>
+						<th>Dernière participation</th>
+						<th>Points acquis</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for participation in Participations %}
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					{% endfor %}
+				</tbody>
+    		</table>  
+        </div>
+    </div>
 
     <div class="row">
-        <div  class="col-xs-12 offset-md-3 col-md-6">
-          
+        <div  class="col-xs-12 col-md-12">
+        	<h3>Mon compte</h3>
+        	{{ form(form_account, {'method': 'POST'}) }}
         </div>
     </div>
 {% endblock %}

@@ -55,8 +55,29 @@ class UserController extends Controller
         $eleve = $em->getRepository('AppBundle:User')->findAll();
       
         return $this->render('open_eleve\listeEleve.html.twig', [
-a        ]);
+        ]);
     }
+
+    /**
+     * @Route("/account", name="account")
+     */
+    public function accountAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $participations = $em->getRepository('AppBundle:Association')->findAll();
+
+        $compte = new User();
+        $form = $this->createForm(RegisterForm::class, $compte);
+        $form->handleRequest($request);
+
+        $array = [
+            'Participations' => $participations,
+            'form_account' => $form->createView()
+        ];
+
+        return $this->render('open_eleve/profil.html.twig',$array);
+    }
+
      /**
      * @Route("/delete/{id}", name="membre_supprimerInvitation")
      */
@@ -68,7 +89,7 @@ a        ]);
         $em = $this->getDoctrine()->getManager();
         $em->remove($eleve);
         $em->flush();
-        $this->addFlash('success', "Bien supprimer");
+        $this->addFlash('success', "Correctement supprimé");
         return $this->redirectToRoute('eleves');
 
     }

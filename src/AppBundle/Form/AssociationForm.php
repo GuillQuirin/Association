@@ -20,7 +20,7 @@ class AssociationForm extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                 ->add('mail', TextType::class, [
+                 ->add('mail', EmailType::class, [
                     'label'=>'E-mail'
                 ])
                  ->add('mdp', PasswordType::class, [

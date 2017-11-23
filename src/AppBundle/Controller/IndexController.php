@@ -46,11 +46,13 @@ class IndexController extends Controller
 
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
-        var_dump($lastUsername);
         
-        return $this->render('open_eleve/profil.html.twig',array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ));
+        /*if($lastUsername)
+            return $this->redirectToRoute('account');
+        else*/
+            return $this->render('open_eleve/profil.html.twig',array(
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ));
     }
 }

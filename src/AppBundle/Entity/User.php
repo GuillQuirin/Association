@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="open_user")
  */
 
 class User  implements UserInterface{
@@ -72,8 +72,8 @@ class User  implements UserInterface{
 	public function getNom(){return $this->nom;}
 	public function getPrenom(){return $this->prenom;}
 	public function getAnnee(){return $this->annee;}
-        public function getEmail(){return $this->email;}
-        public function getMdp(){return $this->mdp;}
+    public function getEmail(){return $this->email;}
+    public function getMdp(){return $this->mdp;}
 	public function getEcole(){return $this->ecole;}
 	public function getDate_crea(){return $this->date_crea;}
 

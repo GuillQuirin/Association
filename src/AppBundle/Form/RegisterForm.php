@@ -32,7 +32,7 @@ class RegisterForm extends AbstractType{
                     ->add('annee', ChoiceType::class,[  'label' => ' ',
                                                         'placeholder' => false, 
                                                         'choices' => [
-                                                            'Selectionnez votre promotion *' => '',
+                                                            'Selectionnez votre promotion' => '',
                                                             '1ere année Initiale' => '1I',
                                                             '1ere année Alternance' => '1A',
                                                             '2eme année Initiale' => '2I',
@@ -45,10 +45,10 @@ class RegisterForm extends AbstractType{
                                                         'required' => true
                                                     ])
                     ->add('nom', TextType::class, [ 'label' => ' ',
-                                                    'attr' => ['placeholder' => 'Nom *']
+                                                    'attr' => ['placeholder' => 'Nom']
                                                     ])
                     ->add('prenom', TextType::class, [ 'label' => ' ',
-                                                        'attr' => ['placeholder' => 'Prenom *']
+                                                        'attr' => ['placeholder' => 'Prenom']
                                                     ])
                     ->add('email', TextType::class, [ 'label' => ' ',
                                                         'attr' => ['placeholder' => 'email']
@@ -71,6 +71,7 @@ class RegisterForm extends AbstractType{
                                                     ])
                     ->add('save', SubmitType::class, array('label' => "M'enregistrer"));
     }
+
     public function configureOption(OptionsResolver $resolver) {
         $resolver->setDefaults(['data_class'=>'AppBundle\Entity\Membre']);
         
