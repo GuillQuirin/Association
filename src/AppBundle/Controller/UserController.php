@@ -63,11 +63,12 @@ class UserController extends Controller
      */
     public function accountAction(Request $request)
     {
+
+        $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $participations = $em->getRepository('AppBundle:Association')->findAll();
 
-        $compte = new User();
-        $form = $this->createForm(RegisterForm::class, $compte);
+        $form = $this->createForm(RegisterForm::class, $this->getUser());
         $form->handleRequest($request);
 
         $array = [
