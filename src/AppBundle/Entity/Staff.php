@@ -21,37 +21,18 @@ class Staff {
     * @ORM\GeneratedValue(strategy="AUTO")
     */
 	protected $id;
-	
-	/**
-    * @ORM\Column(type="string", length=100)
-    */
-    protected $nom;
-    
-    /**
-    * @ORM\Column(type="string", length=100)
-    */
-	protected $prenom;
-
-	/**
-    * @ORM\Column(type="string", length=5)
-    */
-    protected $promotion;
-
-	/**
-    * @ORM\Column(type="string", length=30)
-    */
-    protected $email;
-
-	/**
-    * @ORM\Column(type="string", length=200)
-    */
-    protected $mdp;
 
 	/**
     * @ORM\ManyToOne(targetEntity="Association", inversedBy="staffs")
     * @ORM\JoinColumn(name="association_id", referencedColumnName="id")
     */
     protected $association;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="staffs")
+    * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+    */
+    protected $user;
 
 	/**
     * @var \DateTime
@@ -60,30 +41,18 @@ class Staff {
     */
 	protected $created_at;
 
-        public function getId(){return $this->id;}
-        public function getNom(){return $this->nom;}
-        public function getPrenom(){return $this->prenom;}
-        public function getPromotion(){return $this->promotion;}
-	public function getEmail(){return $this->email;}
-        public function getMdp(){return $this->mdp;}
-	public function getAssociation(){return $this->association;}
+    public function getId(){return $this->id;}
+    public function getAssociation(){return $this->association;}
+    public function getUser(){return $this->user;}
 	public function getCreated_at(){return $this->created_at;}
 
 	public function setId($id){$this->id = $id;}
-        public function setNom($nom){$this->nom = $nom;}
-        public function setPrenom($prenom){$this->prenom = $prenom;}
-        public function setPromotion($promotion){$this->promotion = $promotion;}
-        public function setEmail($email){$this->email = $email;}
-        public function setMdp($mdp){$this->mdp = $mdp;}
-        public function setAssociation($association){$this->association = $association;}
+    public function setAssociation($association){$this->association = $association;}
+    public function setUser($user){$this->user = $user;}
 	public function setCreated_at($created_at){$this->created_at = $created_at;}
 
         public function eraseCredentials() {
 
-        }
-
-        public function getPassword() {
-            return $this->mdp;
         }
 
         public function getRoles() {
@@ -92,10 +61,6 @@ class Staff {
 
         public function getSalt() {
 
-        }
-
-        public function getUsername() {
-            return $this->email;
         }
         
         public function isEqualTo(UserInterface $user)

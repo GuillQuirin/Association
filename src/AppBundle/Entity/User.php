@@ -56,6 +56,11 @@ class User  implements UserInterface{
      */
 	protected $ecole;
 	
+    /**
+    * @ORM\OneToMany(targetEntity="Staff", mappedBy="user")
+    */
+    protected $staffs;
+
 	/**
      * 
      */

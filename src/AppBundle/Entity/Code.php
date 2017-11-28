@@ -27,6 +27,16 @@ class Code{
 	protected $open;
 
 	/**
+	* TODO : OneToMany ou ManyToMany ?
+	*/
+    protected $association;
+
+   	/**
+	* TODO : OneToMany ou ManyToMany ?
+	*/
+    protected $user;
+
+	/**
 	*
 	*/
 	protected $date_crea;
