@@ -24,15 +24,10 @@ class IndexController extends Controller
      */
     public function indexAction(Request $request)
     {
-        
-        $session = $request->getSession();
-        if($this->getUser()){
-           return $this->redirectToRoute('account');
-        }
-        return $this->render('default/index.html.twig',array(
-           
-        ));
+        return $this->render('default/index.html.twig',[]);
     }
+
+
     /**
      * @Route("/login", name="login")
      */
@@ -44,16 +39,22 @@ class IndexController extends Controller
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
         $em = $this->getDoctrine()->getManager();
-        
-        $participations = $em->getRepository('AppBundle:Association')->findAll();
+        $session = $request->getSession();
 
-        /*if($lastUsername)
+        if($this->getUser() != null)
+            //Redirige vers l'accueil au lieu de account
             return $this->redirectToRoute('account');
-        else*/
+        else
+            return $this->redirectToRoute('inscript');
+
+        /*
+        if($lastUsername)
+            return $this->redirectToRoute('account');
+        else
             return $this->render('open_eleve/account.html.twig',array(
                 'last_username' => $lastUsername,
                 'error'         => $error,
                 'Participations' => $participations
-            ));
+            ));*/
     }
 }

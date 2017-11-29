@@ -27,13 +27,25 @@ class Code{
 	protected $open;
 
 	/**
-	* TODO : OneToMany ou ManyToMany ?
+	* @ORM\ManyToMany(targetEntity="Association")
+	* @ORM\JoinTable(name="open_code",
+		* joinColumns={@ORM\JoinColumn(name="id_association", referencedColumnName="id")},
+		* inverseJoinColumns={ORM\@JoinColumn(name="id", referencedColumnName="id")} 
+		*)
 	*/
     protected $association;
 
-   	/**
-	* TODO : OneToMany ou ManyToMany ?
+    /**
+	* @ORM\ManyToMany(targetEntity="User")
+	* @ORM\JoinTable(name="user",
+		* joinColumns={@ORM\JoinColumn(name="id_user", referencedColumnName="id")},
+		* inverseJoinColumns={ORM\@JoinColumn(name="id", referencedColumnName="id")} 
+		*)
 	*/
+	/**
+    * @ORM\ManyToMany(targetEntity="User", cascade={"persist"}, inversedBy="users")
+    * @ORM\JoinTable(name="competition_juge")
+    */
     protected $user;
 
 	/**
