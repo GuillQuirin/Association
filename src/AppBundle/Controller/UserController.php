@@ -66,10 +66,21 @@ class UserController extends Controller
 
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
+        $eleve = $this->getUser();
+        /* Liste des participations */
         $participations = $em->getRepository('AppBundle:Association')->findAll();
 
-        $form = $this->createForm(RegisterForm::class, $this->getUser());
+        /* Information du compte*/
+        $form = $this->createForm(RegisterForm::class, $eleve);
         $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $ecoder = $this->get("security.password_encoder");
+            $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($eleve);
+            $em->flush();
+        }
 
         $array = [
             'Participations' => $participations,
