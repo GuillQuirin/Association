@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="user")
+ * @ORM\Table(name="participations")
  */
 
-class User  implements UserInterface{
+class Participations{
 
 	/**
     * @ORM\Column(type="integer")
@@ -21,64 +21,30 @@ class User  implements UserInterface{
     * @ORM\GeneratedValue(strategy="AUTO")
     */
     protected $id;
-  
-	/**
-     * @ORM\Column(type="string", length=100)
-     */
-	protected $nom;
-	
-	/**
-     * @ORM\Column(type="string", length=100)
-     */
-	protected $prenom;
-	/**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-	protected $statut;
-	    /**
-    * @ORM\Column(type="string", length=200)
-    */
-	protected $email;
-        
+
     /**
-    * @ORM\Column(type="string", length=200)
+    * @ORM\ManyToOne(targetEntity="Association", inversedBy="participations")
+    * @ORM\JoinColumn(name="association_id", referencedColumnName="id") 
     */
-    protected $mdp;
-	
-	/**
-     * @ORM\Column(type="string", length=5)
-     */
-	protected $annee;
-	
-	
-	/**
-     * @ORM\Column(type="string", length=100)
-     */
-	protected $ecole;
-	
+    protected $association_id;
+
     /**
-    * @ORM\OneToMany(targetEntity="Staff", mappedBy="user")
+    * @ORM\ManyToOne(targetEntity="User", inversedBy="participations")
+    * @ORM\JoinColumn(name="user_id", referencedColumnName="id") 
     */
-    protected $staffs;
+    protected $user_id;
+
+    /**
+    * @ORM\Column(type="integer")
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    protected $points;
 
 	/**
      * 
      */
 	protected $date_crea;
 
-
-    /**
-    * @ORM\OneToMany(targetEntity="Participations", mappedBy="participations") 
-    */
-    protected $participations;
-
-    
-    public function __construct()
-    {
-        $this->participations = new ArrayCollection();
-    }
-
-    
 	public static function loadValidatorMetadata(ClassMetadata $metadata){
         $metadata->addPropertyConstraint('nom', new NotBlank());
         $metadata->addPropertyConstraint('prenom', new NotBlank());
