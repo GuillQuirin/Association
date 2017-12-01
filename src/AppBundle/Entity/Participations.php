@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="participations")
  */
 
-class Participations{
+class participations{
 
 	/**
     * @ORM\Column(type="integer")
@@ -35,59 +35,22 @@ class Participations{
     protected $user_id;
 
     /**
-    * @ORM\Column(type="integer")
-    * @ORM\GeneratedValue(strategy="AUTO")
+    * @ORM\Column(type="datetime")
     */
-    protected $points;
-
-	/**
-     * 
-     */
 	protected $date_crea;
 
-	public static function loadValidatorMetadata(ClassMetadata $metadata){
-        $metadata->addPropertyConstraint('nom', new NotBlank());
-        $metadata->addPropertyConstraint('prenom', new NotBlank());
+    public function __construct()
+    {
+        $this->date_crea = new \DateTime();
     }
 
-	public function getId(){return $this->id;}
-	public function getStatut(){return $this->statut;}
-	public function getNom(){return $this->nom;}
-	public function getPrenom(){return $this->prenom;}
-	public function getAnnee(){return $this->annee;}
-    public function getEmail(){return $this->email;}
-    public function getMdp(){return $this->mdp;}
-	public function getEcole(){return $this->ecole;}
+    public function getId(){return $this->id;}
+    public function getAssociation_id(){return $this->association_id;}
+    public function getUser_id(){return $this->user_id;}
 	public function getDate_crea(){return $this->date_crea;}
 
-	public function setId($id){$this->id = $id;}
-	public function setStatut($statut){$this->statut = $statut;}
-	public function setNom($nom){$this->nom = strtoupper(trim($nom));}
-	public function setPrenom($prenom){$this->prenom = strtoupper(trim($prenom));}
-	public function setAnnee($annee){$this->annee = $annee;}
-	public function setEmail($email){$this->email = $email;}
-	public function setMdp($mdp){$this->mdp = $mdp;}
-	public function setEcole($ecole){$this->ecole = strtoupper(trim($ecole));}
+    public function setId($id){$this->id = $id;}
+    public function setAssociation_id($association_id){$this->association_id = $association_id;}
+    public function setUser_id($user_id){$this->user_id = $user_id;}
 	public function setDate_crea($date_crea){$this->date_crea = $date_crea;}
-
-    public function eraseCredentials() {
-        $this->setMdp(NULL);
-    }
-
-    public function getPassword() {
-        return $this->mdp;
-    }
-
-    public function getRoles() {
-        return array();
-    }
-
-    public function getSalt() {
-        return null;
-    }
-
-    public function getUsername() {
-        return $this->email;
-    }
-
 }

@@ -68,7 +68,7 @@ class User  implements UserInterface{
 
 
     /**
-    * @ORM\OneToMany(targetEntity="Participations", mappedBy="participations") 
+    * @ORM\OneToMany(targetEntity="Participations", mappedBy="user_id") 
     */
     protected $participations;
 
@@ -78,7 +78,7 @@ class User  implements UserInterface{
         $this->participations = new ArrayCollection();
     }
 
-    
+
 	public static function loadValidatorMetadata(ClassMetadata $metadata){
         $metadata->addPropertyConstraint('nom', new NotBlank());
         $metadata->addPropertyConstraint('prenom', new NotBlank());

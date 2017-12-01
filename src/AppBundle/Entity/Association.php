@@ -37,7 +37,7 @@ class Association{
 	protected $is_active;
 
 	/**
-	* @ORM\OneToMany(targetEntity="Participations", mappedBy="participations") 
+	* @ORM\OneToMany(targetEntity="Participations", mappedBy="association_id") 
 	*/
 	protected $participations;
 

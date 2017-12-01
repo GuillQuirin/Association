@@ -10,15 +10,15 @@
 					<tr>
 						<th>Association</th>
 						<th>Dernière participation</th>
-						<th>Points acquis</th>
+						<th>Historique</th>
 					</tr>
 				</thead>
 				<tbody>
-					{% for participation in Participations %}
+					{% for participation in participations %}
 						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>{{ participation.association_id.nom }}</td>
+							<td>{{ participation.date_crea|date('d/m/Y') }}</td>
+							<td><button class="btn btn-default">Consulter</button></td>
 						</tr>
 					{% endfor %}
 				</tbody>

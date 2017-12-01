@@ -68,7 +68,8 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $eleve = $this->getUser();
         /* Liste des participations */
-        $participations = $em->getRepository('AppBundle:Association')->findAll();
+        $participations = $em->getRepository('AppBundle:participations')->findAll();
+        dump($participations);
 
         /* Information du compte*/
         $form = $this->createForm(RegisterForm::class, $eleve);
@@ -83,7 +84,7 @@ class UserController extends Controller
         }
 
         $array = [
-            'Participations' => $participations,
+            'participations' => $participations,
             'form_account' => $form->createView()
         ];
 
