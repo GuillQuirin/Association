@@ -67,8 +67,12 @@ class UserController extends Controller
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $eleve = $this->getUser();
+        dump($this->getUser());
         /* Liste des participations */
-        $participations = $em->getRepository('AppBundle:participations')->findAll();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Participations');
+        $participations = $repository->findBy(
+            ['user_id' => $this->getUser()->getId()]
+        );
         dump($participations);
 
         /* Information du compte*/
