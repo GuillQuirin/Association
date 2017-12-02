@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  */
 
-class User  implements UserInterface{
+class User implements UserInterface{
 
 	/**
     * @ORM\Column(type="integer")
@@ -75,7 +75,7 @@ class User  implements UserInterface{
     
     public function __construct()
     {
-        $this->participations = new ArrayCollection();
+        //$this->participations = new ArrayCollection();
     }
 
 

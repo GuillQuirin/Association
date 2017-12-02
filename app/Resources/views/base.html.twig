@@ -30,7 +30,7 @@
                 <div class="nav navbar-nav navbar-right top">
                     <br>
                     {% if app.user == null %}
-                        <form  class="form-inline" action="{{ path('login') }}" method="post" >
+                        <form class="form-inline" action="{{ path('login') }}" method="post" >
                             <div class="form-group">
                                 <label for="username">Adresse email:</label>
                                 <input class="form-control" type="email" id="username" name="_username" value="" required>
@@ -41,6 +41,9 @@
                             </div>
                              <button type="submit">login</button>
                         </form>
+                        {% if error is defined %}
+                            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
                         <a class="pull-right" href="{{ url('inscript') }}">Inscription</a>
                     {% else %}
                       Bonjour

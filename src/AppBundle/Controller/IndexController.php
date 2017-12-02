@@ -41,20 +41,11 @@ class IndexController extends Controller
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
 
-        if($this->getUser() != null)
-            //Redirige vers l'accueil au lieu de account
-            return $this->redirectToRoute('account');
-        else
-            return $this->redirectToRoute('inscript');
-
         /*
-        if($lastUsername)
-            return $this->redirectToRoute('account');
-        else
-            return $this->render('open_eleve/account.html.twig',array(
-                'last_username' => $lastUsername,
-                'error'         => $error,
-                'Participations' => $participations
-            ));*/
+        return $this->render('default/index.html.twig',array(
+            'last_username' => $lastUsername,
+            'error'         => $error
+        ));
+        */
     }
 }

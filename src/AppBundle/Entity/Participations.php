@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="participations")
  */
 
-class participations{
+class Participations{
 
 	/**
     * @ORM\Column(type="integer")

@@ -23,6 +23,8 @@ security:
             form_login:
                 login_path: /login
                 check_path: /login
+                default_target_path: /account
+                failure_path: /
             logout:
                 path: /logout
                 target: /
