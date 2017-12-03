@@ -28,7 +28,7 @@ class ConnexionForm extends AbstractType{
                 ]);
     }
     public function configureOption(OptionsResolver $resolver) {
-        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\Membre']);
+        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\User']);
         
     }
 }

@@ -25,12 +25,14 @@ class IndexController extends Controller
     public function indexAction(Request $request)
     {
         
-        $session = $request->getSession();
+        $em = $this->getDoctrine()->getManager();
+        $association = $em->getRepository('AppBundle:Association')->findAll();
+        
         if($this->getUser()){
            return $this->redirectToRoute('account');
         }
         return $this->render('default/index.html.twig',array(
-           
+          'associations'=> $association
         ));
     }
     /**
@@ -47,9 +49,9 @@ class IndexController extends Controller
         
         $participations = $em->getRepository('AppBundle:Association')->findAll();
 
-        /*if($lastUsername)
-            return $this->redirectToRoute('account');
-        else*/
+        if(!$this->getUser()){
+           return $this->redirectToRoute('homepage');
+        }
             return $this->render('open_eleve/account.html.twig',array(
                 'last_username' => $lastUsername,
                 'error'         => $error,

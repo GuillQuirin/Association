@@ -11,7 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class AssociationForm extends AbstractType{
     /**
@@ -20,15 +21,18 @@ class AssociationForm extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                 ->add('mail', EmailType::class, [
-                    'label'=>'E-mail'
+                 ->add('nom', TextType::class, [
+                    'label'=>'nom'
                 ])
-                 ->add('mdp', PasswordType::class, [
-                    'label'=>'Mot de passe'
+                 ->add('is_active', CheckboxType::class, [
+                    'label'=>'disponible'
+                ])
+                ->add('image', FileType::class, [
+                    'label'=>'image'
                 ]);
     }
     public function configureOption(OptionsResolver $resolver) {
-        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\Membre']);
+        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\Association']);
         
     }
 }

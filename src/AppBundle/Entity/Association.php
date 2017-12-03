@@ -25,22 +25,29 @@ class Association{
     * @ORM\Column(type="string", length=100)
     */
 	protected $nom;
+        
 
 	/**
     * @ORM\OneToMany(targetEntity="Staff", mappedBy="association")
     */
 	protected $staffs;
 
-	/**
-	*
-	*/
+    /**
+    * @ORM\Column(type="integer", options={"default":0})
+    */
 	protected $is_active;
+        
+        /**
+    * @ORM\Column(type="string")
+    */
+	protected $image;
 
 	public function getId(){return $this->id;}
 	public function getNom(){return $this->nom;}
 	public function getIs_active(){return $this->is_active;}
+	public function getImage(){return $this->image;}
 
 	public function setId($id){$this->id = $id;}
 	public function setNom($nom){$this->nom = $nom;}
-	public function setIs_active($is_active){$this->is_active = $is_active;}
+	public function setImage($image){$this->image = $image;}
 }
