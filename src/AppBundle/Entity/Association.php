@@ -42,6 +42,17 @@ class Association{
     */
 	protected $image;
 
+	/**
+	* @ORM\OneToMany(targetEntity="Participations", mappedBy="association_id") 
+	*/
+	protected $participations;
+
+	
+	public function __construct()
+	{
+		$this->participations = new ArrayCollection();
+	}
+ 
 	public function getId(){return $this->id;}
 	public function getNom(){return $this->nom;}
 	public function getIs_active(){return $this->is_active;}

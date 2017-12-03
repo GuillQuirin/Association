@@ -63,15 +63,32 @@ class UserController extends Controller
      */
     public function accountAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $participations = $em->getRepository('AppBundle:Association')->findAll();
 
-        $compte = new User();
-        $form = $this->createForm(RegisterForm::class, $compte);
+        $session = $request->getSession();
+        $em = $this->getDoctrine()->getManager();
+        $eleve = $this->getUser();
+        dump($this->getUser());
+        /* Liste des participations */
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Participations');
+        $participations = $repository->findBy(
+            ['user_id' => $this->getUser()->getId()]
+        );
+        dump($participations);
+
+        /* Information du compte*/
+        $form = $this->createForm(RegisterForm::class, $eleve);
         $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()){
+            $ecoder = $this->get("security.password_encoder");
+            $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($eleve);
+            $em->flush();
+        }
+
         $array = [
-            'Participations' => $participations,
+            'participations' => $participations,
             'form_account' => $form->createView()
         ];
 

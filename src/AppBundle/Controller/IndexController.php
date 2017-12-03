@@ -35,19 +35,26 @@ class IndexController extends Controller
           'associations'=> $association
         ));
     }
+
+
     /**
      * @Route("/login", name="login")
      */
     public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
+
+        $request = Request::createFromGlobals();
+
+        if($request->getMethod() != 'POST')
+            return $this->redirectToRoute('homepage');
+
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
 
         // last username entered by the user
         $lastUsername = $authUtils->getLastUsername();
         $em = $this->getDoctrine()->getManager();
-        
-        $participations = $em->getRepository('AppBundle:Association')->findAll();
+        $session = $request->getSession();
 
         if(!$this->getUser()){
            return $this->redirectToRoute('homepage');

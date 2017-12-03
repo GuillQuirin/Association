@@ -4,11 +4,10 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}OPEN ESGI{% endblock %}</title>
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-            <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
-        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
+        {% block stylesheets %}{% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -31,7 +30,7 @@
                 <div class="nav navbar-nav navbar-right top">
                     <br>
                     {% if app.user == null %}
-                        <form  class="form-inline" action="{{ path('login') }}" method="post" >
+                        <form class="form-inline" action="{{ path('login') }}" method="post" >
                             <div class="form-group">
                                 <label for="username">Adresse email:</label>
                                 <input class="form-control" type="email" id="username" name="_username" value="" required>
@@ -42,12 +41,18 @@
                             </div>
                              <button type="submit">login</button>
                         </form>
+                        {% if error is defined %}
+                            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
                         <a class="pull-right" href="{{ url('inscript') }}">Inscription</a>
                     {% else %}
                       Bonjour
                       <a class="" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
+                      {% if app.user.statut is defined and app.user.statut == 1 %}
+                        <a class="" href="{{ url('admin') }}">Administration</a>
+                      {% endif %}
                       <a class="" href="{{ url('logout') }}">Se déconnecter</a>
-                    {% endif%}
+                    {% endif %}
                 </div>
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -62,7 +67,7 @@
             {% endfor %}
         </div>
         <div id="wrapper">
-            <div class="container-fluid">
+            <div class="container">
                 {% block body %}{% endblock %}
             </div>
         </div>

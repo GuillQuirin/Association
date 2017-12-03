@@ -13,14 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  */
 
-class User  implements UserInterface{
+class User implements UserInterface{
 
 	/**
     * @ORM\Column(type="integer")
     * @ORM\Id
     * @ORM\GeneratedValue(strategy="AUTO")
     */
-        protected $id;
+    protected $id;
   
 	/**
      * @ORM\Column(type="string", length=100)
@@ -43,7 +43,7 @@ class User  implements UserInterface{
     /**
     * @ORM\Column(type="string", length=200)
     */
-        protected $mdp;
+    protected $mdp;
 	
 	/**
      * @ORM\Column(type="string", length=5)
@@ -56,10 +56,27 @@ class User  implements UserInterface{
      */
 	protected $ecole;
 	
+    /**
+    * @ORM\OneToMany(targetEntity="Staff", mappedBy="user")
+    */
+    protected $staffs;
+
 	/**
      * 
      */
 	protected $date_crea;
+
+
+    /**
+    * @ORM\OneToMany(targetEntity="Participations", mappedBy="user_id") 
+    */
+    protected $participations;
+
+    
+    public function __construct()
+    {
+        //$this->participations = new ArrayCollection();
+    }
 
 
 	public static function loadValidatorMetadata(ClassMetadata $metadata){
