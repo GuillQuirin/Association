@@ -68,6 +68,7 @@ class UserController extends Controller
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $eleve = $this->getUser();
+        $oldmdp = $eleve->getMdp();
         dump($this->getUser());
         /* Liste des participations */
         $repository = $this->getDoctrine()->getRepository('AppBundle:Participations');
@@ -83,9 +84,11 @@ class UserController extends Controller
             $ecoder = $this->get("security.password_encoder");
             
             //Si l'utilisateur a décidé de changer de mot de passe
-            if($eleve->getMdp() !== null)
+            if($eleve->getMdp() !== null && trim($eleve->getMdp()) !== "")
                 $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
-    
+            else
+                $eleve->setMdp($oldmdp);
+
             $em->persist($eleve);
             $em->flush();
         }
