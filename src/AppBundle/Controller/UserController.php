@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\RegisterForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,7 +74,6 @@ class UserController extends Controller
         $participations = $repository->findBy(
             ['user_id' => $this->getUser()->getId()]
         );
-        dump($participations);
 
         /* Information du compte*/
         $form = $this->createForm(RegisterForm::class, $eleve);
@@ -81,8 +81,11 @@ class UserController extends Controller
 
         if($form->isSubmitted() && $form->isValid()){
             $ecoder = $this->get("security.password_encoder");
-            $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
-            $em = $this->getDoctrine()->getManager();
+            
+            //Si l'utilisateur a décidé de changer de mot de passe
+            if($eleve->getMdp() !== null)
+                $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+    
             $em->persist($eleve);
             $em->flush();
         }

@@ -22,14 +22,13 @@ class RegisterForm extends AbstractType{
      * @param array $option
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder
-                 ->add('ecole', ChoiceType::class,['label' => ' ',
+        $builder->add('ecole', ChoiceType::class,['label' => ' ',
                                                     'attr' => ['placeholder' => 'Ecole'], 
                                                     'choices' => [
                                                         'ESGI' => 'ESGI',
                                                      ]
                                                     ])
-                    ->add('annee', ChoiceType::class,[  'label' => ' ',
+                ->add('annee', ChoiceType::class,[  'label' => ' ',
                                                         'placeholder' => false, 
                                                         'choices' => [
                                                             'Selectionnez votre promotion' => '',
@@ -44,36 +43,59 @@ class RegisterForm extends AbstractType{
                                                         ],
                                                         'required' => true
                                                     ])
-                    ->add('nom', TextType::class, [ 'label' => ' ',
+                ->add('nom', TextType::class, [ 'label' => ' ',
                                                     'attr' => ['placeholder' => 'Nom']
                                                     ])
-                    ->add('prenom', TextType::class, [ 'label' => ' ',
+                ->add('prenom', TextType::class, [ 'label' => ' ',
                                                         'attr' => ['placeholder' => 'Prenom']
                                                     ])
-                    ->add('email', TextType::class, [ 'label' => ' ',
+                ->add('email', TextType::class, [ 'label' => ' ',
                                                         'attr' => ['placeholder' => 'email']
-                                                    ])
-                    ->add('mdp', PasswordType::class, [ 
-                                                        'type' => PasswordType::class,
-                                                        'invalid_message' => 'The password fields must match.',
-                                                        'options' => array('attr' => array('class' => 'password-field')),
-                                                        'required' => true,
-                                                        'first_options'  => array('label' => 'Password'),
-                                                        'second_options' => array('label' => 'Repeat Password'),
-                                                    ])
+                                                    ]);
+
+        //Inscription : on demande les mots de passe
+        if($options['data']->getId() == NULL){
+            $builder->add('mdp', PasswordType::class, [ 
+                                                'type' => PasswordType::class,
+                                                'invalid_message' => 'The password fields must match.',
+                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'required' => true,
+                                                'first_options'  => array('label' => 'Password'),
+                                                'second_options' => array('label' => 'Repeat Password'),
+                                            ])
                     ->add('mdp', RepeatedType::class, [ 
-                                                        'type' => PasswordType::class,
-                                                        'invalid_message' => 'The password fields must match.',
-                                                        'options' => array('attr' => array('class' => 'password-field')),
-                                                        'required' => true,
-                                                        'first_options'  => array('label' => 'Password'),
-                                                        'second_options' => array('label' => 'Repeat Password'),
-                                                    ])
-                    ->add('save', SubmitType::class, array('label' => "M'enregistrer"));
+                                                'type' => PasswordType::class,
+                                                'invalid_message' => 'The password fields must match.',
+                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'required' => true,
+                                                'first_options'  => array('label' => 'Password'),
+                                                'second_options' => array('label' => 'Repeat Password'),
+                                            ]);
+        }
+        //Modification du compte
+        else{
+            $builder->add('mdp', PasswordType::class, [ 
+                                                'type' => PasswordType::class,
+                                                'invalid_message' => 'The password fields must match.',
+                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'required' => false,
+                                                'first_options'  => array('label' => 'Nouveau mot de passe'),
+                                                'second_options' => array('label' => 'Confirmer le nouveau mot de passe'),
+                                            ])
+                    ->add('mdp', RepeatedType::class, [ 
+                                                'type' => PasswordType::class,
+                                                'invalid_message' => 'The password fields must match.',
+                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'required' => false,
+                                                'first_options'  => array('label' => 'Nouveau mot de passe'),
+                                                'second_options' => array('label' => 'Confirmer le nouveau mot de passe'),
+                                            ]);
+        }
+
+        $builder->add('save', SubmitType::class, array('label' => "M'enregistrer"));        
     }
 
     public function configureOption(OptionsResolver $resolver) {
-        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\User']);
-        
+        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\User']);   
     }
 }
