@@ -33,7 +33,7 @@ class Association{
 	protected $staffs;
 
     /**
-    * @ORM\Column(type="integer", options={"default":0})
+    * @ORM\Column(type="boolean", options={"default":0})
     */
 	public $is_active;
         

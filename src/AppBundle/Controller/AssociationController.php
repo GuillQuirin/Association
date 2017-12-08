@@ -25,7 +25,7 @@ class AssociationController extends Controller
             'Associations'=>$association,
         ]);
     }
-        /**
+    /**
      * @Route("/addassociation", name="add_associations")
      */
     public function addAction(Request $request)
@@ -55,6 +55,41 @@ class AssociationController extends Controller
             $em->flush();
             return $this->redirectToRoute('associations');
             
+        }
+        return $this->render('open_association\addAssociation.html.twig', [
+            'form'=>$form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/delete/{id}", name="delete_association")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Association');
+        // query for a single product matching the given name and price
+        $association = $repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($association);
+        $em->flush();
+        $this->addFlash('success', "Assiciation a bien été supprimé");
+        return $this->redirectToRoute('associations', []);
+
+    }
+    /**
+     * @Route("/edit/{id}", name="edit_association")
+     */
+    public function editAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $association = $em->getRepository('AppBundle:Association')->find($id);
+        $form = $this->createForm(AssociationForm::class, $association);
+        $form->handleRequest($request);
+        if($form->isValid()){
+           $em->persist($association);
+           $em->flush();
+           $this->addFlash('success', "Vos informations personnelles sont à jour!");
+           return $this->redirectToRoute('associations', []);
+
         }
         return $this->render('open_association\addAssociation.html.twig', [
             'form'=>$form->createView(),

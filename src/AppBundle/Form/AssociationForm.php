@@ -34,10 +34,6 @@ class AssociationForm extends AbstractType{
                     'attr'=>[
                         'class'=>'form-control'
                     ],
-                ])
-                ->add('image', FileType::class, [
-                    'label'=>'image'
-                    
                 ]);
     }
     public function configureOption(OptionsResolver $resolver) {
