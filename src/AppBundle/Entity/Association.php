@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,7 +35,7 @@ class Association{
     /**
     * @ORM\Column(type="integer", options={"default":0})
     */
-	protected $is_active;
+	public $is_active;
         
         /**
     * @ORM\Column(type="string")

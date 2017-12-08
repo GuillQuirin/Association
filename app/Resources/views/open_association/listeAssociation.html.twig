@@ -4,9 +4,11 @@
     <div class="row">
                      
         <div class="col-xs-12 col-md-12">
+            <a href="{{ path("add_associations")}}">Ajouter une association</a>
             <table class="table table-striped datatable_esgi">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>Nom</th>
                         <th>Actif</th>
                     </tr>
@@ -14,10 +16,11 @@
                 <tbody>
                     {% for association in Associations %}
                         <tr>
+                            <td class="col s3"><img src="{{association.image}}">{{association.image}}</td>
                             <td class="col s3">{{association.nom}}</td>
                             <td class="col s3">
                                 {% if association.is_active==1 %}
-                                    yep
+                                    disponible
                                 {% endif %}
                             </td>
                         </tr>

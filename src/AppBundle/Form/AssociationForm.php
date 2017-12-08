@@ -22,13 +22,22 @@ class AssociationForm extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                  ->add('nom', TextType::class, [
-                    'label'=>'nom'
+                    'label'=>'nom',
+                    'required'=>false,
+                    'attr'=>[
+                        'class'=>'form-control'
+                    ],
                 ])
                  ->add('is_active', CheckboxType::class, [
-                    'label'=>'disponible'
+                    'label'=>'disponible',
+                    'required'=>false,
+                    'attr'=>[
+                        'class'=>'form-control'
+                    ],
                 ])
                 ->add('image', FileType::class, [
                     'label'=>'image'
+                    
                 ]);
     }
     public function configureOption(OptionsResolver $resolver) {

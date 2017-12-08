@@ -4,17 +4,10 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Association;
 use AppBundle\Form\AssociationForm;
-use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+
 
 
 class AssociationController extends Controller
@@ -37,16 +30,17 @@ class AssociationController extends Controller
      */
     public function addAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $association = $em->getRepository('AppBundle:Association')->findAll();
+        $association = new Association();
         $form = $this->createForm(AssociationForm::class, $association);
         $form->handleRequest($request);
-
         if($form->isValid()){
           //  $data = $request->get('association_form');
-            if(isset($_FILES['image'])){
-                $uploaddir = 'images';
+         // var_dump($form->da);
+            if(isset($_POST['image'])){
+                $uploaddir = 'images/';
                 $uploadfile = $uploaddir . basename($_FILES['image']['name']);
+                var_dump($_FILES['image']['name']);
+                die;
                 if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
                         move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile);
                         $association->setImage($_FILES['image']['name']);
@@ -55,7 +49,7 @@ class AssociationController extends Controller
                         echo "la taille de l'image dépasse la taille autorisé.";
                 }
             }
-            
+            die;
             $em = $this->getDoctrine()->getManager();
             $em->persist($association);
             $em->flush();
