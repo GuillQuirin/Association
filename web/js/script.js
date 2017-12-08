@@ -22,7 +22,12 @@ $(document).ready(function(){
 	            "zeroRecords": "Aucun résultat trouvé",
 	            "info": "Page n° _PAGE_ sur _PAGES_",
 	            "infoEmpty": "Pas de résultat trouvé",
-	            "infoFiltered": "(filtre sur un total de _MAX_ lignes)"
+	            "infoFiltered": "(filtre sur un total de _MAX_ lignes)",
+	            "search": "Rechercher",
+	            "paginate": {
+	            	"previous": "Precedent",
+	            	"next": "Suivant"
+	            }
 	        }
 	    });
 	});

@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -49,7 +50,7 @@ class RegisterForm extends AbstractType{
                 ->add('prenom', TextType::class, [ 'label' => ' ',
                                                         'attr' => ['placeholder' => 'Prenom']
                                                     ])
-                ->add('email', TextType::class, [ 'label' => ' ',
+                ->add('email', EmailType::class, [ 'label' => ' ',
                                                         'attr' => ['placeholder' => 'email']
                                                     ]);
 
