@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Association;
+use AppBundle\Service\AssociationService;
 use AppBundle\Form\AssociationForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -35,14 +36,10 @@ class AssociationController extends Controller
             $form = $this->createForm(AssociationForm::class, $association);
             $form->handleRequest($request);
             if($form->isValid()){
-              //  $data = $request->get('association_form');
-             // var_dump($form->da);
-
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($association);
                 $em->flush();
                 return $this->redirectToRoute('associations');
-
             }
             return $this->render('open_association\addAssociation.html.twig', [
                 'form'=>$form->createView(),
@@ -56,15 +53,13 @@ class AssociationController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Association');
-        // query for a single product matching the given name and price
-        $association = $repository->find($id);
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($association);
-        $em->flush();
-        $this->addFlash('success', "Assiciation a bien été supprimé");
-        return $this->redirectToRoute('associations', []);
-
+        if($this->getUser() && $this->getUser()->getStatut()==1){
+            $em = $this->getDoctrine()->getManager();
+            AssociationService::delete($em, $id);
+            return $this->redirectToRoute('associations', []);
+        }else{
+            return $this->render('default\NotAllowed.html.twig', []);
+        }
     }
     /**
      * @Route("/edit/{id}", name="edit_association")
@@ -86,4 +81,5 @@ class AssociationController extends Controller
             'form'=>$form->createView(),
         ]);
     }
+    
 }
