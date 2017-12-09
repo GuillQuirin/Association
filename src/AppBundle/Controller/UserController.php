@@ -30,13 +30,29 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            // $form->getData() holds the submitted values but, the original `$task` variable has also been updated
-            $ecoder = $this->get("security.password_encoder");
-            $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
-            $eleve->setStatut(0);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($eleve);
-            $em->flush();
+            $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+            $eleveBdd = $repository->findOneBy(
+              ['email' => $request->get('register_form')['email']]
+            );
+
+            if($eleveBdd && $eleve->getEmail() == $eleveBdd->getEmail()){
+                $this->addFlash(
+                    'error',
+                    'Un compte existe déjà à cette adresse.'
+                );
+            }
+            else{
+                $ecoder = $this->get("security.password_encoder");
+                $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($eleve);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre compte a correctement été créé, vous pouvez dès à présent vous connecter.'
+                );
+            }
         }
 
 
@@ -70,7 +86,7 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $eleve = $this->getUser();
         $oldmdp = $eleve->getMdp();
-        dump($this->getUser());
+
         /* Liste des participations */
         $repository = $this->getDoctrine()->getRepository('AppBundle:Participations');
         $participations = $repository->findBy(
@@ -82,16 +98,34 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $ecoder = $this->get("security.password_encoder");
-            
-            //Si l'utilisateur a décidé de changer de mot de passe
-            if($eleve->getMdp() !== null && trim($eleve->getMdp()) !== "")
-                $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
-            else
-                $eleve->setMdp($oldmdp);
+            $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+            $eleveBdd = $repository->findOneBy(
+              ['email' => $request->get('register_form')['email']]
+            );
 
-            $em->persist($eleve);
-            $em->flush();
+            if($eleveBdd && $eleve->getEmail() == $eleveBdd->getEmail()){
+                $this->addFlash(
+                    'error',
+                    'Erreur : Cette adresse email est déjà enregistrée.'
+                );
+            }
+            else{
+                $ecoder = $this->get("security.password_encoder");
+                
+                //Si l'utilisateur a décidé de changer de mot de passe
+                if($eleve->getMdp() !== null && trim($eleve->getMdp()) !== "")
+                    $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+                else
+                    $eleve->setMdp($oldmdp);
+
+                $em->persist($eleve);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Modifications correctement enregistrées.'
+                );
+            }
         }
 
         $array = [

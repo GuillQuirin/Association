@@ -35,7 +35,7 @@ class User implements UserInterface{
      * @ORM\Column(type="integer", nullable=true)
      */
 	protected $statut;
-	    /**
+	/**
     * @ORM\Column(type="string", length=200)
     */
 	protected $email;
@@ -103,6 +103,10 @@ class User implements UserInterface{
 	public function setMdp($mdp){$this->mdp = $mdp;}
 	public function setEcole($ecole){$this->ecole = strtoupper(trim($ecole));}
 	public function setDate_crea($date_crea){$this->date_crea = $date_crea;}
+
+    public function isEqualTo(UserInterface $user){
+        return $this->id === $user->getId();
+    }
 
     public function eraseCredentials() {
         $this->setMdp(NULL);

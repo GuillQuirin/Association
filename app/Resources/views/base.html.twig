@@ -7,6 +7,17 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
+        <style>
+            .flash-error{
+                font-weight: bold;
+                color: red;
+            }
+
+            .flash-success{
+                font-weight: bold;
+                color: green;
+            }
+        </style>
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -44,14 +55,17 @@
                         {% if error is defined %}
                             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
-                        <a class="pull-right" href="{{ url('inscript') }}">Inscription</a>
+                        <div class="pull-right">
+                            <a href="#" data-toggle="modal" data-target="#forgetModal">Mot de passe oublié</a>
+                            <a href="{{ url('inscript') }}">Inscription</a>
+                        </div>
                     {% else %}
-                      Bonjour
-                      <a class="" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
-                      {% if app.user.statut is defined and app.user.statut == 1 %}
-                        <a class="" href="{{ url('admin') }}">Administration</a>
-                      {% endif %}
-                      <a class="" href="{{ url('logout') }}">Se déconnecter</a>
+                        Bonjour
+                        <a class="" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
+                        {% if app.user.statut is defined and app.user.statut == 1 %}
+                            <a class="" href="{{ url('admin') }}">Administration</a>
+                        {% endif %}
+                        <a class="" href="{{ url('logout') }}">Se déconnecter</a>
                     {% endif %}
                 </div>
               </div><!-- /.navbar-collapse -->
@@ -71,16 +85,49 @@
                 {% block body %}{% endblock %}
             </div>
         </div>
-    <footer>
-        <div>
-            //footer
+        <!-- Modal -->
+        <div class="modal fade" id="forgetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <form class="form-inline" action="{{ path('forget') }}" method="post" >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Mot de passe oublié</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <p>Un email de récupération de compte vous sera envoyé</p>
+                                <label>
+                                    Adresse email:
+                                    <input class="form-control" type="email" id="forgetemail" name="email" value="" required>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-primary">Envoyer l'email de récupération</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
-    </footer>
-    {% block javascripts %}
-        <script src="{{ asset('js/jquery.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.js') }}"></script>
-        <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
-        <script src="{{ asset('js/script.js') }}"></script>
-    {% endblock %}
+        <footer>
+            <div>
+                //footer
+            </div>
+        </footer>
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.js') }}"></script>
+            <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
+            <script src="{{ asset('js/script.js') }}"></script>
+            <script>
+            $('#myModal').on('shown.bs.modal', function () {
+              $('#myInput').focus()
+            });
+            </script>
+        {% endblock %}
     </body>
 </html>

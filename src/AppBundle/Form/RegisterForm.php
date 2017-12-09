@@ -58,42 +58,42 @@ class RegisterForm extends AbstractType{
         if($options['data']->getId() == NULL){
             $builder->add('mdp', PasswordType::class, [ 
                                                 'type' => PasswordType::class,
-                                                'invalid_message' => 'The password fields must match.',
+                                                'invalid_message' => 'Les mots de passe doivent correspondre.',
                                                 'options' => array('attr' => array('class' => 'password-field')),
                                                 'required' => true,
-                                                'first_options'  => array('label' => 'Password'),
-                                                'second_options' => array('label' => 'Repeat Password'),
+                                                'first_options'  => array('label' => 'Mot de passe'),
+                                                'second_options' => array('label' => 'Confirmez le mot de passe'),
                                             ])
                     ->add('mdp', RepeatedType::class, [ 
                                                 'type' => PasswordType::class,
-                                                'invalid_message' => 'The password fields must match.',
+                                                'invalid_message' => 'Les mots de passe doivent correspondre.',
                                                 'options' => array('attr' => array('class' => 'password-field')),
                                                 'required' => true,
-                                                'first_options'  => array('label' => 'Password'),
-                                                'second_options' => array('label' => 'Repeat Password'),
+                                                'first_options'  => array('label' => 'Mot de passe'),
+                                                'second_options' => array('label' => 'Confirmez le mot de passe'),
                                             ]);
+            $builder->add('save', SubmitType::class, array('label' => "M'enregistrer")); 
         }
         //Modification du compte
         else{
             $builder->add('mdp', PasswordType::class, [ 
                                                 'type' => PasswordType::class,
-                                                'invalid_message' => 'The password fields must match.',
+                                                'invalid_message' => 'Les mots de passe doivent correspondre.',
                                                 'options' => array('attr' => array('class' => 'password-field')),
                                                 'required' => false,
                                                 'first_options'  => array('label' => 'Nouveau mot de passe'),
-                                                'second_options' => array('label' => 'Confirmer le nouveau mot de passe'),
+                                                'second_options' => array('label' => 'Confirmez le nouveau mot de passe'),
                                             ])
                     ->add('mdp', RepeatedType::class, [ 
                                                 'type' => PasswordType::class,
-                                                'invalid_message' => 'The password fields must match.',
+                                                'invalid_message' => 'Les mots de passe doivent correspondre.',
                                                 'options' => array('attr' => array('class' => 'password-field')),
                                                 'required' => false,
                                                 'first_options'  => array('label' => 'Nouveau mot de passe'),
-                                                'second_options' => array('label' => 'Confirmer le nouveau mot de passe'),
+                                                'second_options' => array('label' => 'Confirmez le nouveau mot de passe'),
                                             ]);
-        }
-
-        $builder->add('save', SubmitType::class, array('label' => "M'enregistrer"));        
+            $builder->add('save', SubmitType::class, array('label' => "Mettre à jour mon compte")); 
+        }       
     }
 
     public function configureOption(OptionsResolver $resolver) {
