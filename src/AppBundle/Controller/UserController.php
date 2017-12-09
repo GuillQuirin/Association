@@ -28,14 +28,32 @@ class UserController extends Controller
         $eleve = new User();
         $form = $this->createForm(RegisterForm::class, $eleve);
         $form->handleRequest($request);
+        
+        $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+
+        $eleveBdd = $repository->findOneBy(
+          ['email' => $request->get('register_form')['email']]
+        );
 
         if($form->isSubmitted() && $form->isValid()){
-            // $form->getData() holds the submitted values but, the original `$task` variable has also been updated
-            $ecoder = $this->get("security.password_encoder");
-            $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($eleve);
-            $em->flush();
+            if($eleveBdd && $eleve->getEmail() == $eleveBdd->getEmail()){
+                $this->addFlash(
+                    'error',
+                    'Un compte existe déjà à cette adresse.'
+                );
+            }
+            else{
+                $ecoder = $this->get("security.password_encoder");
+                $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($eleve);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Votre compte a correctement été créé, vous pouvez dès à présent vous connecter.'
+                );
+            }
         }
 
 
