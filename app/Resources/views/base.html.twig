@@ -7,19 +7,18 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
-        {% block stylesheets %}
-            <style>
-                .flash-error{
-                    font-weight: bold;
-                    color: red;
-                }
+        <style>
+            .flash-error{
+                font-weight: bold;
+                color: red;
+            }
 
-                .flash-success{
-                    font-weight: bold;
-                    color: green;
-                }
-            </style>
-        {% endblock %}
+            .flash-success{
+                font-weight: bold;
+                color: green;
+            }
+        </style>
+        {% block stylesheets %}{% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-default">

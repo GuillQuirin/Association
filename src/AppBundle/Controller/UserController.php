@@ -28,14 +28,13 @@ class UserController extends Controller
         $eleve = new User();
         $form = $this->createForm(RegisterForm::class, $eleve);
         $form->handleRequest($request);
-        
-        $repository = $this->getDoctrine()->getRepository('AppBundle:User');
-
-        $eleveBdd = $repository->findOneBy(
-          ['email' => $request->get('register_form')['email']]
-        );
 
         if($form->isSubmitted() && $form->isValid()){
+            $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+            $eleveBdd = $repository->findOneBy(
+              ['email' => $request->get('register_form')['email']]
+            );
+
             if($eleveBdd && $eleve->getEmail() == $eleveBdd->getEmail()){
                 $this->addFlash(
                     'error',
@@ -87,7 +86,7 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $eleve = $this->getUser();
         $oldmdp = $eleve->getMdp();
-        dump($this->getUser());
+
         /* Liste des participations */
         $repository = $this->getDoctrine()->getRepository('AppBundle:Participations');
         $participations = $repository->findBy(
@@ -99,16 +98,34 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $ecoder = $this->get("security.password_encoder");
-            
-            //Si l'utilisateur a décidé de changer de mot de passe
-            if($eleve->getMdp() !== null && trim($eleve->getMdp()) !== "")
-                $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
-            else
-                $eleve->setMdp($oldmdp);
+            $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+            $eleveBdd = $repository->findOneBy(
+              ['email' => $request->get('register_form')['email']]
+            );
 
-            $em->persist($eleve);
-            $em->flush();
+            if($eleveBdd && $eleve->getEmail() == $eleveBdd->getEmail()){
+                $this->addFlash(
+                    'error',
+                    'Erreur : Cette adresse email est déjà enregistrée.'
+                );
+            }
+            else{
+                $ecoder = $this->get("security.password_encoder");
+                
+                //Si l'utilisateur a décidé de changer de mot de passe
+                if($eleve->getMdp() !== null && trim($eleve->getMdp()) !== "")
+                    $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+                else
+                    $eleve->setMdp($oldmdp);
+
+                $em->persist($eleve);
+                $em->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Modifications correctement enregistrées.'
+                );
+            }
         }
 
         $array = [
