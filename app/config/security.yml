@@ -19,14 +19,14 @@ security:
             security: false
 
         main:
-            pattern:   ^/
+           # pattern:   ^/
             anonymous: true
-            provider:  our_db_provider
+           # provider:  our_db_provider
             form_login:
                 login_path: /login
                 check_path: /login
-                #default_target_path: /account
-                #failure_path: /
+                default_target_path: /account
+                failure_path: /
             logout:
                 path: /logout
                 target: /
@@ -44,4 +44,4 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
-        #- { path: ^/account, roles: ROLE_USER }
+       # - { path: ^/account, roles: ROLE_USER }

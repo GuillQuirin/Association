@@ -36,7 +36,7 @@ class AssociationForm extends AbstractType{
                     ],
                 ])
                  ->add('description', TextareaType::class, [
-                    'label'=>'disponible',
+                    'label'=>'Description',
                     'required'=>false,
                     'attr'=>[
                         'class'=>'form-control'
