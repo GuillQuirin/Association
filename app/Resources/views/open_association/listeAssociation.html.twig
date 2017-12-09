@@ -8,8 +8,8 @@
             <table class="table table-striped datatable_esgi">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Nom</th>
+                        <th>Desciption</th>
                         <th>Actif</th>
                         <th></th>
                     </tr>
@@ -17,8 +17,8 @@
                 <tbody>
                     {% for association in Associations %}
                         <tr>
-                            <td class="col s3"><img src="{{association.image}}">{{association.image}}</td>
                             <td class="col s3">{{association.nom}}</td>
+                            <td class="col s3">{{association.desciption}}</td>
                             <td class="col s3">
                                 {% if association.is_active==1 %}
                                     disponible

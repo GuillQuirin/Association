@@ -19,7 +19,9 @@ security:
             security: false
 
         main:
+            pattern:   ^/
             anonymous: true
+            provider:  our_db_provider
             form_login:
                 login_path: /login
                 check_path: /login

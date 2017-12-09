@@ -12,7 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class AssociationForm extends AbstractType{
     /**
@@ -29,6 +29,13 @@ class AssociationForm extends AbstractType{
                     ],
                 ])
                  ->add('is_active', CheckboxType::class, [
+                    'label'=>'disponible',
+                    'required'=>false,
+                    'attr'=>[
+                        'class'=>'form-control'
+                    ],
+                ])
+                 ->add('description', TextareaType::class, [
                     'label'=>'disponible',
                     'required'=>false,
                     'attr'=>[

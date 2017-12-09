@@ -33,6 +33,7 @@ class UserController extends Controller
             // $form->getData() holds the submitted values but, the original `$task` variable has also been updated
             $ecoder = $this->get("security.password_encoder");
             $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+            $eleve->setStatut(0);
             $em = $this->getDoctrine()->getManager();
             $em->persist($eleve);
             $em->flush();
