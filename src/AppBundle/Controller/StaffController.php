@@ -26,7 +26,7 @@ class StaffController extends Controller
     public function indexAction(Request $request)
     {
        
-        return $this->render('default/admin.html.twig', []);
+        return $this->render('open_staff/admin.html.twig', []);
     }
 
     /**
