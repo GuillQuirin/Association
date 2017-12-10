@@ -52,4 +52,19 @@ class StaffController extends Controller
         
         return $this->render('default\NotAllowed.html.twig', []);
     }
+
+    /**
+     * @Route("/participation/delete/{id}", name="delete_participation")
+     */
+    public function deleteParticipationsAction(Request $request, $id)
+    {
+        if($this->getUser() && $this->getUser()->getStatut()==1){
+            $em = $this->getDoctrine()->getManager();
+            ParticipationsService::delete($em, $id);
+            $this->addFlash('success', "La participation a bien été supprimée");
+            return $this->redirectToRoute('participations');
+        }
+
+        return $this->render('default\NotAllowed.html.twig', []);
+    }
 }

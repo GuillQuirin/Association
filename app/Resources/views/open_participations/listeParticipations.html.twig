@@ -23,10 +23,10 @@
                             <td class="col s3">{{ participation.date_crea|date('d/m/Y') }}</td>
                             <td class="col s3">{{ participation.user_id.nom }} {{ participation.user_id.prenom }}</td>
                             <td class="col s3">
-                                <a href="{{path('delete_association',{'id':association.id})}}" class="orange-text text-lighten-2">
+                                <a href="{{path('delete_participation',{'id':participation.id})}}" class="orange-text text-lighten-2">
                                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                 </a>
-                                <a href="{{path('edit_association',{'id':association.id})}}" class="orange-text text-lighten-2">
+                                <a href="{{path('edit_association',{'id':participation.id})}}" class="orange-text text-lighten-2">
                                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                 </a>
                             </td>

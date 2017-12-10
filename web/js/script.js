@@ -13,6 +13,11 @@ $(document).ready(function(){
 	});
 
 
+	//Confirmation de suppression de l'élement
+	$('.glyphicon-trash').click(function(event){
+		return confirm("Souhaitez-vous vraiment supprimer cette ligne ?");
+	});
+
 	//DataTables
 	$('.datatable_esgi').each(function(){
 		$(this).DataTable( {

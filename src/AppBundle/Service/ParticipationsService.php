@@ -19,7 +19,7 @@ use AppBundle\Entity\Participations;
 
 class ParticipationsService
 {
-    
+
     public function save(EntityManager $em){
       
     }   
@@ -39,8 +39,9 @@ class ParticipationsService
 
     public static function delete(EntityManager $em, $id){
         $participation = $em->getRepository('AppBundle:Participations')->findOneBy(["id" => $id]);
-        $em->remove($participation);
-        $em->flush();
-        $this->addFlash('success', "La participation de l'élève a bien été supprimée");
+        if($participation){
+            $em->remove($participation);
+            $em->flush();
+        }
     }
 }

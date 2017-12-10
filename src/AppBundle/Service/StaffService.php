@@ -37,6 +37,8 @@ class StaffService
     }
 
     public static function delete(EntityManager $em, $id){
-        
+        $participation = $em->getRepository('AppBundle:Participation')->findOneBy(["id" => $id]);
+        $em->remove($participation);
+        $em->flush();
     }
 }
