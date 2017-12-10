@@ -17,7 +17,9 @@
                 <tbody>
                     {% for association in Associations %}
                         <tr>
-                            <td class="col s3">{{association.nom}}</td>
+                            <td class="col s3">
+                                <a href="{{path('show_association',{'id':association.id})}}" class="">{{association.nom}}</a>
+                            </td>
                             <td class="col s3">{{association.description}}</td>
                             <td class="col s3">
                                 {% if association.is_active==1 %}

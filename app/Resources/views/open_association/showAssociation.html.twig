@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+                     
+        <div class="col-xs-12 col-md-12">
+            <div class="pull-right">
+                <a href="{{ path("associations")}}">Retour à la liste des associations <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+            <div class="col-xs-3 col-md-3">
+            </div>
+            <div class="col-xs-6 col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4><center>{{association.nom}}</center></h3>
+                        <br>
+                        Description : {{association.description}}
+                        <br>
+                         Disponible ce jeudi : {% if association.is_active == 1 %}
+                                          <span class="glyphicon glyphicon-ok"></span>
+                                        {% else %}
+                                           <span class="glyphicon glyphicon-ban-circle"></span>
+                                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-3 col-md-3">
+            </div>
+        </div>
+        <div>
+            <h2> Liste des participants</h2>
+            <table class="table table-striped datatable_esgi">
+                <thead>
+                    <tr>
+                        <th>nom</th>
+                        <th>prenom</th>
+                        <th>Ecole</th>
+                        <th>Année</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{user.nom}}</td>
+                            <td>{{user.prenom}}</td>
+                            <td>{{user.ecole}}</td>
+                            <td>{{user.annee}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
