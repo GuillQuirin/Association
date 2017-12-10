@@ -25,8 +25,13 @@ class StaffController extends Controller
      */
     public function indexAction(Request $request)
     {
-       
-        return $this->render('open_staff/admin.html.twig', []);
+    	$em = $this->getDoctrine()->getManager();
+    	$association = StaffService::getAssociationByStaff($em, ["user" => $this->getUser()->getId()]);
+       	
+       	if($this->getUser() && ($this->getUser()->getStatut()==1 || isset($association)))
+       		return $this->render('open_staff/admin.html.twig', ['association' => $association]);
+       	else
+       		return $this->render('default\NotAllowed.html.twig', []);
     }
 
     /**
