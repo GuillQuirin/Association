@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Code;
 use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Form\RegisterForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,6 +33,65 @@ class StaffController extends Controller
        		return $this->render('open_staff/admin.html.twig', ['association' => $association]);
        	else
        		return $this->render('default\NotAllowed.html.twig', []);
+    }
+    
+    /**
+     * @Route("/eleves", name="eleves")
+     */
+    public function elevesAction(Request $request)
+    {
+       	if($this->getUser() && $this->getUser()->getStatut()==1){
+       		$em = $this->getDoctrine()->getManager();
+       		$eleve = $em->getRepository('AppBundle:User')->findAll();
+      		
+      		$array = [
+      			'Users' => $eleve
+      		];
+	        return $this->render('open_eleve\listeEleve.html.twig', $array);
+       	}
+       	else
+       		return $this->render('default\NotAllowed.html.twig', []);
+    }
+
+    /**
+     * @Route("/eleve/edit/{id}", name="edit_user")
+     */
+    public function editEleveAction($id, Request $request)
+    {
+        if($this->getUser() && $this->getUser()->getStatut()==1){
+            $em = $this->getDoctrine()->getManager();
+       		$eleve = $em->getRepository('AppBundle:User')->find($id);
+            $form = $this->createForm(RegisterForm::class, $eleve);
+            $form->handleRequest($request);
+            if($form->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($eleve);
+                $em->flush();
+                return $this->redirectToRoute('eleves');
+            }
+            return $this->render('open_eleve\editEleve.html.twig', [
+                'form'=>$form->createView(),
+            ]);
+        }
+        else
+            return $this->render('default\NotAllowed.html.twig', []);
+        
+    }
+    
+    /**
+     * @Route("/eleve/delete/{id}", name="delete_user")
+     */
+    public function supprimerEleveAction($id, Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Amis');
+        // query for a single product matching the given name and price
+        $eleve = $repository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($eleve);
+        $em->flush();
+        $this->addFlash('success', "Correctement supprimé");
+        return $this->redirectToRoute('eleves');
+
     }
 
     /**

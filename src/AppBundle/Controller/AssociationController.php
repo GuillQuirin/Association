@@ -49,7 +49,7 @@ class AssociationController extends Controller
         }
     }
     /**
-     * @Route("/delete/{id}", name="delete_association")
+     * @Route("/association/delete/{id}", name="delete_association")
      */
     public function deleteAction(Request $request, $id)
     {

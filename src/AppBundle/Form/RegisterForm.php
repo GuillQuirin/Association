@@ -72,7 +72,7 @@ class RegisterForm extends AbstractType{
                                                 'first_options'  => array('label' => 'Mot de passe'),
                                                 'second_options' => array('label' => 'Confirmez le mot de passe'),
                                             ]);
-            $builder->add('save', SubmitType::class, array('label' => "M'enregistrer")); 
+            $builder->add('save', SubmitType::class, array('label' => "Enregistrer")); 
         }
         //Modification du compte
         else{
@@ -92,7 +92,7 @@ class RegisterForm extends AbstractType{
                                                 'first_options'  => array('label' => 'Nouveau mot de passe'),
                                                 'second_options' => array('label' => 'Confirmez le nouveau mot de passe'),
                                             ]);
-            $builder->add('save', SubmitType::class, array('label' => "Mettre à jour mon compte")); 
+            $builder->add('save', SubmitType::class, array('label' => "Mettre à jour")); 
         }       
     }
 
