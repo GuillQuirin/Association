@@ -25,8 +25,13 @@ class ParticipationsService
     }   
 
     public function getParticipationsBy(EntityManager $em, array $query = []){
-        $participations = $em->getRepository('AppBundle:Participations')
-                            ->findBy($query);
+        if(isset($query['staff_assocs'])){
+            $participation = [];
+            foreach ($query['staff_assocs'] as $key => $staff) {
+                $participations[] = array_merge($participation, $em->getRepository('AppBundle:Participations')
+                                        ->findBy(['association_id' => $staff->association->getId()]));
+            }
+        }
         return $participations;
     }
     

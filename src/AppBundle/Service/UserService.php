@@ -23,6 +23,10 @@ class UserService
       
     }   
 
+    public function getById(EntityManager $em, $id){
+    	return $em->getRepository('AppBundle:User')->findOneBy($id);
+    } 
+
     public function getAllUsersByProm(EntityManager $em)
     {
         $users = $em->getRepository('AppBundle:User')->findBy([], ['annee' => 'ASC']);

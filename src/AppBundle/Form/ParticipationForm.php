@@ -37,10 +37,15 @@ class ParticipationForm extends AbstractType{
                     'label' => 'Association',
                     'class' => 'AppBundle:Staff',
                     'query_builder' =>  function (EntityRepository $er) use ($options) {
-                                            return $er->createQueryBuilder('u')
-                                                    ->andWhere('u.user = :id')
-                                                    ->setParameter('id', $options['data']['user']->getId());
+                                            //Un super-admin voit toutes les associations
+                                            if($options['data']['user']->getStatut() == 1)
+                                                return $er->createQueryBuilder('u');
+                                            else
+                                                return $er->createQueryBuilder('u')
+                                                        ->andWhere('u.user = :id')
+                                                        ->setParameter('id', $options['data']['user']->getId());
                                         },
+                    'choice_value' => "association.id"
                 ));
     }
 
