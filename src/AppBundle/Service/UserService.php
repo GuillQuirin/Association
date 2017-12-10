@@ -19,15 +19,21 @@ use AppBundle\Entity\User;
 
 class UserService
 {
-    
     public function save(EntityManager $em){
       
     }   
 
-    public function getAllUsersByProm(EntityManager $em)
+    /*public function getAllUsersByProm(EntityManager $em)
     {
-        //Tri de tous les utilisateurs selon leur promo
         $users = $em->getRepository('AppBundle:User')->findBy([], ['annee' => 'ASC']);
-        return $users;           
-    }
+        $list = [];
+        $oldkey = null;
+        foreach ($users as $key => $user) {
+        	if($user->getAnnee() != $oldkey)
+        		$oldkey = $user->getAnnee();
+        	
+        	$list[$oldkey][$user->getNom()." ".$user->getPrenom()] = $user->getId();
+        }
+        return $list;
+    }*/
 }

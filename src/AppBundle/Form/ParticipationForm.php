@@ -10,48 +10,47 @@ namespace AppBundle\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+use AppBundle\Service\User;
+use AppBundle\Service\UserService;
+
 class ParticipationForm extends AbstractType{
+    
     /**
      * @param FormBuilderInterface $builder
-     * @param array $option
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        /*$builder
-                 ->add('user_id', ChoiceType::class, [
-                    'label'=>'Eleve',
-                    'required'=>true,
-                    'multiple'      => true,
-                    'choices' => $listUsers
-                ])
-                ->add('association_id', ChoiceType::class, [
-                    'label'=>'Eleve',
-                    'required'=>true,
-                    'multiple'      => true,
-                    'choices' => $listAssoc
-                ]);
-    
-        $builder->add('save', SubmitType::class, array('label' => "Enregistrer une nouvelle participation")); 
-        /*
-         Exemple de chox triés : 
-         $builder->add('stockStatus', ChoiceType::class, array(
-            'choices' => array(
-                'Main Statuses' => array(
-                    'Yes' => 'stock_yes',
-                    'No' => 'stock_no',
-                ),
-                'Out of Stock Statuses' => array(
-                    'Backordered' => 'stock_backordered',
-                    'Discontinued' => 'stock_discontinued',
-                ),
-            ),
-        ));
-        */
+
+        $builder->add('user_id', EntityType::class, array(
+                    'required' => true,
+                    'preferred_choices' => array(null),
+                    'label' => 'Eleves',
+                    'class' => 'AppBundle:User',
+                    'query_builder' =>  function (EntityRepository $er) {
+                                            return $er->createQueryBuilder('u')
+                                                ->orderBy('u.annee', 'ASC');
+                                        },
+                    //'choice_label' => '',
+                ))
+                ->add('association_id', EntityType::class, array(
+                    'required' => true,                   
+                    'label' => 'Association',
+                    'class' => 'AppBundle:Association',
+                    'query_builder' =>  function (EntityRepository $er) {
+                                            return $er->createQueryBuilder('u')
+                                                ->orderBy('u.nom', 'ASC');
+                                        },
+                    'choice_label' => 'nom',
+                ));
     }
     
     public function configureOption(OptionsResolver $resolver) {
-        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\Participations']);
+        $resolver->setDefaults([
+            'data_class'=>'AppBundle\Entity\Participations'
+        ]);
     }
 }

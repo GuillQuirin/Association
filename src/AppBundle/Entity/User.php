@@ -104,6 +104,11 @@ class User implements UserInterface{
 	public function setEcole($ecole){$this->ecole = strtoupper(trim($ecole));}
 	public function setDate_crea($date_crea){$this->date_crea = $date_crea;}
 
+    //Fonction essentielle pour le formBuilder Participation
+    public function __toString(){
+        return $this->nom." ".$this->prenom;
+    }
+
     public function isEqualTo(UserInterface $user){
         return $this->id === $user->getId();
     }

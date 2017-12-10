@@ -26,13 +26,13 @@ class Participations{
     * @ORM\ManyToOne(targetEntity="Association", inversedBy="participations")
     * @ORM\JoinColumn(name="association_id", referencedColumnName="id") 
     */
-    protected $association_id;
+    public $association_id;
 
     /**
     * @ORM\ManyToOne(targetEntity="User", inversedBy="participations")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id") 
     */
-    protected $user_id;
+    public $user_id;
 
     /**
     * @ORM\Column(type="datetime")

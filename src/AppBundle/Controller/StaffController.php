@@ -105,10 +105,8 @@ class StaffController extends Controller
             
             //Si l'utilisateur est bien responsable d'une association :
             if(!empty($associations)){
-            	$listUsers = UserService::getAllUsersByProm($em);
-
 	            $participation = new Participations();
-	            $form = $this->createForm(ParticipationForm::class, $participation/*, $listUsers*/);
+	            $form = $this->createForm(ParticipationForm::class, $participation);
 	            $form->handleRequest($request);
 				
 				if($form->isSubmitted()){
