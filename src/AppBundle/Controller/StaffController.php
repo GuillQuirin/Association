@@ -8,12 +8,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use AppBundle\Entity\Participations;
+use AppBundle\Service\ParticipationsService;
+use AppBundle\Entity\Staff;
+use AppBundle\Service\StaffService;
+
 
 
 class StaffController extends Controller
@@ -25,5 +24,32 @@ class StaffController extends Controller
     {
        
         return $this->render('default/admin.html.twig', []);
+    }
+
+    /**
+     * @Route("/participations", name="participations")
+     */
+    public function participationsAction(Request $request)
+    {
+    	if($this->getUser() && $this->getUser()->getStatut()==1){
+            $em = $this->getDoctrine()->getManager();
+            $association = StaffService::getAssociationByStaff($em, ["user" => $this->getUser()->getId()]);
+            
+            //Si l'utilisateur est bien responsable d'une association :
+            if($association){
+	            $query = [
+	            	'association_id' => $association->getId()
+	            ];
+
+	            $array = [
+	            	'association' => $association,
+	            	'Participations' => ParticipationsService::getParticipationsBy($em, $query)
+	            ];
+	            
+	            return $this->render('open_participations/listeParticipations.html.twig', $array);
+	        }
+        }
+        
+        return $this->render('default\NotAllowed.html.twig', []);
     }
 }
