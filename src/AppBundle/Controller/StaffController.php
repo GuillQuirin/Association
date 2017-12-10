@@ -9,9 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Participations;
+use AppBundle\Form\ParticipationForm;
 use AppBundle\Service\ParticipationsService;
 use AppBundle\Entity\Staff;
 use AppBundle\Service\StaffService;
+use AppBundle\Service\User;
+use AppBundle\Service\UserService;
 
 
 
@@ -36,12 +39,30 @@ class StaffController extends Controller
             $association = StaffService::getAssociationByStaff($em, ["user" => $this->getUser()->getId()]);
             
             //Si l'utilisateur est bien responsable d'une association :
-            if($association){
+            if(isset($association)){
+            	$listUsers = UserService::getAllUsersByProm($em);
+
+	            $participation = new Participations();
+	            $form = $this->createForm(ParticipationForm::class, $participation/*, $listUsers*/);
+	            $form->handleRequest($request);
+				
+				if($form->isSubmitted()){
+					if($form->isValid()){
+		                $em->persist($participation);
+		                $em->flush();
+		                $this->addFlash('success', "La participation a bien été créée");
+		                return $this->redirectToRoute('participations');
+		            }
+	            	else
+	            		$this->addFlash('error', "Erreur lors de la création de la participation");
+	            }
+
 	            $query = [
 	            	'association_id' => $association->getId()
 	            ];
 
 	            $array = [
+	            	'form_add' => $form,
 	            	'association' => $association,
 	            	'Participations' => ParticipationsService::getParticipationsBy($em, $query)
 	            ];
