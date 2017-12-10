@@ -102,11 +102,12 @@ class StaffController extends Controller
     	if($this->getUser() && $this->getUser()->getStatut()==1){
             $em = $this->getDoctrine()->getManager();
             $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
-            
+            $listUsers = UserService::getAllUsersByProm($em);
+
             //Si l'utilisateur est bien responsable d'une association :
             if(!empty($associations)){
 	            $participation = new Participations();
-	            $form = $this->createForm(ParticipationForm::class, $participation);
+	            $form = $this->createForm(ParticipationForm::class, ["user" => $this->getUser(), "users" => $listUsers]);
 	            $form->handleRequest($request);
 				
 				if($form->isSubmitted()){

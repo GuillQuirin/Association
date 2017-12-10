@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Service\User;
@@ -25,29 +26,24 @@ class ParticipationForm extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
 
-        $builder->add('user_id', EntityType::class, array(
-                    'required' => true,
-                    'preferred_choices' => array(null),
-                    'label' => 'Eleves',
-                    'class' => 'AppBundle:User',
-                    'query_builder' =>  function (EntityRepository $er) {
-                                            return $er->createQueryBuilder('u')
-                                                ->orderBy('u.annee', 'ASC');
-                                        },
-                    //'choice_label' => '',
-                ))
-                ->add('association_id', EntityType::class, array(
+        $builder->add('user_id', ChoiceType::class, [
+                    'label'=>'Eleve',
+                    'required'=>true,
+                    'choices' => $options['data']['users']
+                ]);
+
+        $builder->add('association_id', EntityType::class, array(
                     'required' => true,                   
                     'label' => 'Association',
-                    'class' => 'AppBundle:Association',
-                    'query_builder' =>  function (EntityRepository $er) {
+                    'class' => 'AppBundle:Staff',
+                    'query_builder' =>  function (EntityRepository $er) use ($options) {
                                             return $er->createQueryBuilder('u')
-                                                ->orderBy('u.nom', 'ASC');
+                                                    ->andWhere('u.user = :id')
+                                                    ->setParameter('id', $options['data']['user']->getId());
                                         },
-                    'choice_label' => 'nom',
                 ));
     }
-    
+
     public function configureOption(OptionsResolver $resolver) {
         $resolver->setDefaults([
             'data_class'=>'AppBundle\Entity\Participations'

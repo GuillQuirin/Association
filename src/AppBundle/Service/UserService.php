@@ -23,7 +23,7 @@ class UserService
       
     }   
 
-    /*public function getAllUsersByProm(EntityManager $em)
+    public function getAllUsersByProm(EntityManager $em)
     {
         $users = $em->getRepository('AppBundle:User')->findBy([], ['annee' => 'ASC']);
         $list = [];
@@ -35,5 +35,5 @@ class UserService
         	$list[$oldkey][$user->getNom()." ".$user->getPrenom()] = $user->getId();
         }
         return $list;
-    }*/
+    }
 }

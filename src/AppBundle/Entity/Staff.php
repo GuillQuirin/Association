@@ -26,13 +26,13 @@ class Staff {
     * @ORM\ManyToOne(targetEntity="Association", inversedBy="staffs")
     * @ORM\JoinColumn(name="association_id", referencedColumnName="id")
     */
-    protected $association;
+    public $association;
 
     /**
     * @ORM\ManyToOne(targetEntity="User", inversedBy="staffs")
     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
     */
-    protected $user;
+    public $user;
 
 	/**
     * @var \DateTime
@@ -51,36 +51,41 @@ class Staff {
     public function setUser($user){$this->user = $user;}
 	public function setCreated_at($created_at){$this->created_at = $created_at;}
 
-        public function eraseCredentials() {
+    public function __toString()
+    {
+        return (string) $this->association->getNom();
+    }
 
+    public function eraseCredentials() {
+
+    }
+
+    public function getRoles() {
+
+    }
+
+    public function getSalt() {
+
+    }
+    
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof WebserviceUser) {
+            return false;
         }
 
-        public function getRoles() {
-
+        if ($this->mdp !== $user->getPassword()) {
+            return false;
         }
 
-        public function getSalt() {
-
+        if ($this->salt !== $user->getSalt()) {
+            return false;
         }
-        
-        public function isEqualTo(UserInterface $user)
-        {
-            if (!$user instanceof WebserviceUser) {
-                return false;
-            }
 
-            if ($this->mdp !== $user->getPassword()) {
-                return false;
-            }
-
-            if ($this->salt !== $user->getSalt()) {
-                return false;
-            }
-
-            if ($this->email !== $user->getUsername()) {
-                return false;
-            }
-
-            return true;
+        if ($this->email !== $user->getUsername()) {
+            return false;
         }
+
+        return true;
+    }
 }
