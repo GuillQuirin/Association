@@ -73,7 +73,9 @@ class UserController extends Controller
         $session = $request->getSession();
         $em = $this->getDoctrine()->getManager();
         $eleve = $this->getUser();
+
         $oldmdp = $eleve->getMdp();
+        $oldemail = $eleve->getEmail();
 
         /* Liste des participations */
         $repository = $this->getDoctrine()->getRepository('AppBundle:Participations');
@@ -91,7 +93,7 @@ class UserController extends Controller
               ['email' => $request->get('register_form')['email']]
             );
 
-            if($eleveBdd && $eleve->getEmail() == $eleveBdd->getEmail()){
+            if($eleveBdd && $eleveBdd->getEmail()!==null && $oldemail!=$request->get('register_form')['email'] && $request->get('register_form')['email']==$eleveBdd->getEmail()){
                 $this->addFlash(
                     'error',
                     'Erreur : Cette adresse email est déjà enregistrée.'
@@ -108,7 +110,7 @@ class UserController extends Controller
 
                 $em->persist($eleve);
                 $em->flush();
-
+                dump($eleve);
                 $this->addFlash(
                     'success',
                     'Modifications correctement enregistrées.'

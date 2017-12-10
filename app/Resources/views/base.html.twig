@@ -94,9 +94,9 @@
                             <a class="" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
                         </p>
                         <p>
-                            {% if app.user.statut is defined and app.user.statut == 1 %}
+                            {# {% if app.user.statut is defined and app.user.statut == 1 %} #}
                                 <a class="" href="{{ url('admin') }}">Administration</a>
-                            {% endif %}
+                            {# {% endif %} #}
                             <a class="" href="{{ url('logout') }}">Se déconnecter</a>
                         </p>
                     {% endif %}
