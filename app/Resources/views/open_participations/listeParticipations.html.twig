@@ -5,14 +5,15 @@
 {% endblock %}
 
 {% block body %}
-     <div class="row">
+    <h3 class="text-center">Liste des participations des associations que vous administrez</h3>
+    <div class="row">
         <div class="col-xs-12 col-md-12">
             <a href="#" data-toggle="modal" data-target="#createModal">Ajouter une participation</a>
-            <p>Liste des participations pour l'association {{association.nom}}</p>
             <table class="table table-striped datatable_esgi">
                 <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Association</th>
                         <th>Eleve</th>
                         <th></th>
                     </tr>
@@ -21,6 +22,7 @@
                     {% for participation in Participations %}
                         <tr>
                             <td class="col s3">{{ participation.date_crea|date('d/m/Y') }}</td>
+                            <td class="col s3">{{ participation.association_id.nom }}</td>
                             <td class="col s3">{{ participation.user_id.nom }} {{ participation.user_id.prenom }}</td>
                             <td class="col s3">
                                 <a href="{{path('delete_participation',{'id':participation.id})}}" class="orange-text text-lighten-2">
@@ -40,11 +42,10 @@
     <!-- Modal -->
     <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         {{ form_start(form_add, {'method': 'POST'}) }}
-        <form class="form-inline" action="{{ path('add_participation') }}" method="post" >
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Enregistrement de la présence d'un élève pour l'association {{association.nom}}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Enregistrement de la présence d'un élève pour une association</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>

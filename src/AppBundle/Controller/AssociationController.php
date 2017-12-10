@@ -51,20 +51,7 @@ class AssociationController extends Controller
         }
     }
     /**
-     * @Route("/association/delete/{id}", name="delete_association")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        if($this->getUser() && $this->getUser()->getStatut()==1){
-            $em = $this->getDoctrine()->getManager();
-            AssociationService::delete($em, $id);
-            return $this->redirectToRoute('associations', []);
-        }else{
-            return $this->render('default\NotAllowed.html.twig', []);
-        }
-    }
-    /**
-     * @Route("/edit/{id}", name="edit_association")
+     * @Route("/association/edit/{id}", name="edit_association")
      */
     public function editAction(Request $request, $id)
     {
@@ -75,14 +62,14 @@ class AssociationController extends Controller
         if($form->isValid()){
            $em->persist($association);
            $em->flush();
-           $this->addFlash('success', "Vos informations personnelles sont à jour!");
+           $this->addFlash('success', "Les informations de l'association ont correctement été modifiées.");
            return $this->redirectToRoute('associations', []);
-
         }
         return $this->render('open_association\addAssociation.html.twig', [
             'form'=>$form->createView(),
         ]);
     }
+
      /**
      * @Route("/show/{id}", name="show_association")
      */
@@ -105,4 +92,19 @@ class AssociationController extends Controller
         ]);
     }
     
+
+    /**
+     * @Route("/association/delete/{id}", name="delete_association")
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        if($this->getUser() && $this->getUser()->getStatut()==1){
+            $em = $this->getDoctrine()->getManager();
+            AssociationService::delete($em, $id);
+            return $this->redirectToRoute('associations', []);
+        }else{
+            return $this->render('default\NotAllowed.html.twig', []);
+        }
+    }    
+
 }
