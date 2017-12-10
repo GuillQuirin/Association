@@ -28,7 +28,12 @@ class StaffService
 
     public function getAssociationByStaff(EntityManager $em, $query = []){
         $staff = $em->getRepository('AppBundle:Staff')->findOneBy(["user" => $query['user']]);
-        return $staff->getAssociation();
+        if($staff != null){
+            return $staff->getAssociation(); 
+        }else{
+            return false;
+        }
+       
     }
     
     public function getAll(EntityManager $em)
