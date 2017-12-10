@@ -155,7 +155,10 @@ class StaffController extends Controller
      */
     public function deleteParticipationsAction(Request $request, $id)
     {
-        if($this->getUser() && $this->getUser()->getStatut()==1){
+        $em = $this->getDoctrine()->getManager();
+        $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+
+        if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations))){
             $em = $this->getDoctrine()->getManager();
             ParticipationsService::delete($em, $id);
             $this->addFlash('success', "La participation a bien été supprimée");
