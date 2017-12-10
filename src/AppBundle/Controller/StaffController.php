@@ -27,10 +27,10 @@ class StaffController extends Controller
     public function indexAction(Request $request)
     {
     	$em = $this->getDoctrine()->getManager();
-    	$association = StaffService::getAssociationByStaff($em, ["user" => $this->getUser()->getId()]);
+    	$associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
        	
-       	if($this->getUser() && ($this->getUser()->getStatut()==1 || isset($association)))
-       		return $this->render('open_staff/admin.html.twig', ['association' => $association]);
+       	if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations)))
+       		return $this->render('open_staff/admin.html.twig', ['associations' => $associations]);
        	else
        		return $this->render('default\NotAllowed.html.twig', []);
     }
@@ -101,10 +101,10 @@ class StaffController extends Controller
     {
     	if($this->getUser() && $this->getUser()->getStatut()==1){
             $em = $this->getDoctrine()->getManager();
-            $association = StaffService::getAssociationByStaff($em, ["user" => $this->getUser()->getId()]);
+            $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
             
             //Si l'utilisateur est bien responsable d'une association :
-            if(isset($association)){
+            if(!empty($associations)){
             	$listUsers = UserService::getAllUsersByProm($em);
 
 	            $participation = new Participations();
@@ -123,12 +123,11 @@ class StaffController extends Controller
 	            }
 
 	            $query = [
-	            	'association_id' => $association->getId()
+	            	'association_id' => $associations
 	            ];
 
 	            $array = [
-	            	'form_add' => $form,
-	            	'association' => $association,
+	            	'form_add' => $form->createView(),
 	            	'Participations' => ParticipationsService::getParticipationsBy($em, $query)
 	            ];
 	            

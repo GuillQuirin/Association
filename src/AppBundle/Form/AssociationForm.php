@@ -23,7 +23,7 @@ class AssociationForm extends AbstractType{
         $builder
                  ->add('nom', TextType::class, [
                     'label'=>'nom',
-                    'required'=>false,
+                    'required'=>true,
                     'attr'=>[
                         'class'=>'form-control'
                     ],

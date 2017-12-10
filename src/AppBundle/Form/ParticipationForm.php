@@ -11,21 +11,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ParticipationForm extends AbstractType{
     /**
      * @param FormBuilderInterface $builder
      * @param array $option
      */
-    public function buildForm(FormBuilderInterface $builder, array $options, $listUsers = []) {
-        $builder
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        /*$builder
                  ->add('user_id', ChoiceType::class, [
                     'label'=>'Eleve',
                     'required'=>true,
                     'multiple'      => true,
                     'choices' => $listUsers
+                ])
+                ->add('association_id', ChoiceType::class, [
+                    'label'=>'Eleve',
+                    'required'=>true,
+                    'multiple'      => true,
+                    'choices' => $listAssoc
                 ]);
-
+    
+        $builder->add('save', SubmitType::class, array('label' => "Enregistrer une nouvelle participation")); 
         /*
          Exemple de chox triés : 
          $builder->add('stockStatus', ChoiceType::class, array(
