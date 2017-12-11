@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use AppBundle\Service\EmailService;
 
 class IndexController extends Controller
 {
@@ -55,7 +55,7 @@ class IndexController extends Controller
     /**
      * @Route("/forget", name="forget")
      */
-    public function forgetAction(Request $request, \Swift_Mailer $mailer)
+    public function forgetAction(Request $request, EmailService $emailService)
     {
 
       $em = $this->getDoctrine()->getManager();
@@ -68,32 +68,37 @@ class IndexController extends Controller
       //Génération du nouveau mot de passe
       $characters = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       $charactersLength = strlen($characters);
-      $randomString = '';
+      $newpwd = '';
       
       for ($i = 0; $i < 5; $i++)
-          $randomString .= $characters[rand(0, $charactersLength - 1)];
+          $newpwd .= $characters[rand(0, $charactersLength - 1)];
 
-      if($eleve){
-        $eleve->setMdp($ecoder->encodePassword($eleve, $randomString));
+      if(isset($eleve)){
+        $eleve->setMdp($ecoder->encodePassword($eleve, $newpwd));
         $em->persist($eleve);
         $em->flush();
 
         //Envoi de l'email
-        $message = (new \Swift_Message('Récupération de compte'))
-                    ->setFrom([ 'adresse@email.com' => 'Associations de ESGI' ])
-                    ->setTo($eleve->getEmail())
-                    ->setBody(
-                      $this->renderView(
-                        'emails/forget.html.twig',
-                        [
-                          'user' => $eleve,
-                          'mdp' => $randomString
-                        ]
-                      ), 
-                      'text/html'
-                    );
-        $mailer->send($message);
-        return $this->redirectToRoute('homepage');
+        $parameters = [
+            'object' => 'Récupération de compte',
+            'from' => "Associations de l'ESGI",
+            'to' => $eleve->getEmail()
+        ];
+        $front = [
+          'view' => 'emails/forget.html.twig',
+          'variables' => [
+            'user' => $eleve,
+            'mdp' => $newpwd
+          ]
+        ];
+        $envoi = $emailService->sendEmail($parameters, $front);
       }
+
+      if(isset($envoi) && isset($eleve))
+        $this->addFlash('success', "Un email vient d'être envoyé à cette adresse.");
+      else
+        $this->addFlash('error', "L'email n'a pas pu être envoyé");
+
+      return $this->redirectToRoute('homepage');
     }
 }
