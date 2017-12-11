@@ -11,13 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Participations;
 use AppBundle\Form\ParticipationForm;
-use AppBundle\Service\ParticipationsService;
+use AppBundle\Repository\ParticipationsRepository;
 use AppBundle\Entity\Staff;
-use AppBundle\Service\StaffService;
-use AppBundle\Service\User;
-use AppBundle\Service\UserService;
-use AppBundle\Service\Association;
-use AppBundle\Service\AssociationService;
+use AppBundle\Repository\StaffRepository;
+use AppBundle\Entity\User;
+use AppBundle\Repository\UserRepository;
+use AppBundle\Entity\Association;
+use AppBundle\Repository\AssociationRepository;
 
 
 
@@ -29,12 +29,12 @@ class StaffController extends Controller
     public function indexAction(Request $request)
     {
     	$em = $this->getDoctrine()->getManager();
-    	$associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+    	$associations = StaffRepository::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
 
-       	if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations)))
-       		return $this->render('open_staff/admin.html.twig', ['associations' => $associations]);
-       	else
-       		return $this->render('default\NotAllowed.html.twig', []);
+     	if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations)))
+     		return $this->render('open_staff/admin.html.twig', ['associations' => $associations]);
+     	else
+     		return $this->render('default\NotAllowed.html.twig', []);
     }
     
     /**
@@ -132,11 +132,11 @@ class StaffController extends Controller
     public function participationsAction(Request $request)
     {
     	$em = $this->getDoctrine()->getManager();
-        $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+        $associations = StaffRepository::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
 
         if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations))){
             $em = $this->getDoctrine()->getManager();
-            $listUsers = UserService::getAllUsersByProm($em);
+            $listUsers = UserRepository::getAllUsersByProm($em);
 
             //Si l'utilisateur est bien responsable d'une association :
             if(!empty($associations)){
@@ -148,11 +148,11 @@ class StaffController extends Controller
 					if($form->isValid()){
 		                $em->persist($participation);
                         
-                        $participation->setUser_id(UserService::getById($em, [
+                        $participation->setUser_id(UserRepository::getById($em, [
                             'id' => $request->get('participation_form')['user_id']
                         ]));
                         
-                        $participation->setAssociation_id(AssociationService::getById($em, [
+                        $participation->setAssociation_id(AssociationRepository::getById($em, [
                             'id' => $request->get('participation_form')['association_id']
                         ]));
                         
@@ -170,7 +170,7 @@ class StaffController extends Controller
                 //Liste des participations pour chaque association que l'utilisateur administre
 	            $array = [
 	            	'form_add' => $form->createView(),
-	            	'Associations' => ParticipationsService::getParticipationsBy($em, $query)
+	            	'Associations' => ParticipationsRepository::getParticipationsBy($em, $query)
 	            ];
 	            
 	            return $this->render('open_participations/listeParticipations.html.twig', $array);
@@ -186,11 +186,11 @@ class StaffController extends Controller
     public function deleteParticipationsAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+        $associations = StaffRepository::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
 
         if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations))){
             $em = $this->getDoctrine()->getManager();
-            ParticipationsService::delete($em, $id);
+            ParticipationsRepository::delete($em, $id);
             $this->addFlash('success', "La participation a bien été supprimée");
             return $this->redirectToRoute('participations');
         }

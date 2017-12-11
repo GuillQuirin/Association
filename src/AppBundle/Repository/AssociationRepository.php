@@ -11,13 +11,13 @@
  *
  * @author Sanae BELHAJ
  */
-namespace AppBundle\Service;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Association;
 
 
-class AssociationService
+class AssociationRepository
 {
     public $id;
     public $nom;

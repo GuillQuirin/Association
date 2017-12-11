@@ -11,13 +11,13 @@
  *
  * @author Guillaume QUIRIN
  */
-namespace AppBundle\Service;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Participations;
 
 
-class ParticipationsService
+class ParticipationsRepository
 {
 
     public function save(EntityManager $em){

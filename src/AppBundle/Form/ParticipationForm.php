@@ -15,8 +15,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-use AppBundle\Service\User;
-use AppBundle\Service\UserService;
+use AppBundle\Entity\User;
+use AppBundle\Repository\UserRepository;
 
 class ParticipationForm extends AbstractType{
     

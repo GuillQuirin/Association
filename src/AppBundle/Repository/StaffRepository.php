@@ -11,15 +11,15 @@
  *
  * @author Guillaume QUIRIN
  */
-namespace AppBundle\Service;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Staff;
-use AppBundle\Service\AssociationService;
+use AppBundle\Repository\AssociationRepository;
 use AppBundle\Entity\Association;
 
 
-class StaffService
+class StaffRepository
 {
     
     public function save(EntityManager $em){

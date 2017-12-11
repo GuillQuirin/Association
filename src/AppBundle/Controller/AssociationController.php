@@ -6,7 +6,7 @@ use AppBundle\Entity\Association;
 use AppBundle\Entity\Participations;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Staff;
-use AppBundle\Service\AssociationService;
+use AppBundle\Repository\AssociationRepository;
 use AppBundle\Form\AssociationForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -108,7 +108,7 @@ class AssociationController extends Controller
     {
         if($this->getUser() && $this->getUser()->getStatut()==1){
             $em = $this->getDoctrine()->getManager();
-            AssociationService::delete($em, $id);
+            AssociationRepository::delete($em, $id);
             return $this->redirectToRoute('associations', []);
         }else{
             return $this->render('default\NotAllowed.html.twig', []);
