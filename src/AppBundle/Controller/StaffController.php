@@ -16,6 +16,8 @@ use AppBundle\Entity\Staff;
 use AppBundle\Service\StaffService;
 use AppBundle\Service\User;
 use AppBundle\Service\UserService;
+use AppBundle\Service\Association;
+use AppBundle\Service\AssociationService;
 
 
 
@@ -28,7 +30,7 @@ class StaffController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
     	$associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
-       	
+
        	if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations)))
        		return $this->render('open_staff/admin.html.twig', ['associations' => $associations]);
        	else
@@ -99,36 +101,46 @@ class StaffController extends Controller
      */
     public function participationsAction(Request $request)
     {
-    	if($this->getUser() && $this->getUser()->getStatut()==1){
+    	$em = $this->getDoctrine()->getManager();
+        $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+
+        if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations))){
             $em = $this->getDoctrine()->getManager();
-            $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
-            
+            $listUsers = UserService::getAllUsersByProm($em);
+
             //Si l'utilisateur est bien responsable d'une association :
             if(!empty($associations)){
-            	$listUsers = UserService::getAllUsersByProm($em);
-
 	            $participation = new Participations();
-	            $form = $this->createForm(ParticipationForm::class, $participation/*, $listUsers*/);
+	            $form = $this->createForm(ParticipationForm::class, ["user" => $this->getUser(), "users" => $listUsers]);
 	            $form->handleRequest($request);
 				
 				if($form->isSubmitted()){
 					if($form->isValid()){
 		                $em->persist($participation);
+                        
+                        $participation->setUser_id(UserService::getById($em, [
+                            'id' => $request->get('participation_form')['user_id']
+                        ]));
+                        
+                        $participation->setAssociation_id(AssociationService::getById($em, [
+                            'id' => $request->get('participation_form')['association_id']
+                        ]));
+                        
 		                $em->flush();
 		                $this->addFlash('success', "La participation a bien été créée");
-		                return $this->redirectToRoute('participations');
 		            }
 	            	else
 	            		$this->addFlash('error', "Erreur lors de la création de la participation");
 	            }
 
 	            $query = [
-	            	'association_id' => $associations
+	            	'staff_assocs' => $associations
 	            ];
 
+                //Liste des participations pour chaque association que l'utilisateur administre
 	            $array = [
 	            	'form_add' => $form->createView(),
-	            	'Participations' => ParticipationsService::getParticipationsBy($em, $query)
+	            	'Associations' => ParticipationsService::getParticipationsBy($em, $query)
 	            ];
 	            
 	            return $this->render('open_participations/listeParticipations.html.twig', $array);
@@ -143,7 +155,10 @@ class StaffController extends Controller
      */
     public function deleteParticipationsAction(Request $request, $id)
     {
-        if($this->getUser() && $this->getUser()->getStatut()==1){
+        $em = $this->getDoctrine()->getManager();
+        $associations = StaffService::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+
+        if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations))){
             $em = $this->getDoctrine()->getManager();
             ParticipationsService::delete($em, $id);
             $this->addFlash('success', "La participation a bien été supprimée");

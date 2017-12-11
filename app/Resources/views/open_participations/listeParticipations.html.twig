@@ -5,11 +5,11 @@
 {% endblock %}
 
 {% block body %}
-    <h3 class="text-center">Liste des participations des associations que vous administrez</h3>
+    <h3 class="text-center">Récapitulatif des élèves présents à vos associations</h3>
     <div class="row">
         <div class="col-xs-12 col-md-12">
             <a href="#" data-toggle="modal" data-target="#createModal">Ajouter une participation</a>
-            <table class="table table-striped datatable_esgi">
+            <table class="table table-striped datatable_esgi" id="listParticipations">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -19,20 +19,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for participation in Participations %}
-                        <tr>
-                            <td class="col s3">{{ participation.date_crea|date('d/m/Y') }}</td>
-                            <td class="col s3">{{ participation.association_id.nom }}</td>
-                            <td class="col s3">{{ participation.user_id.nom }} {{ participation.user_id.prenom }}</td>
-                            <td class="col s3">
-                                <a href="{{path('delete_participation',{'id':participation.id})}}" class="orange-text text-lighten-2">
-                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                </a>
-                                <a href="{{path('edit_association',{'id':participation.id})}}" class="orange-text text-lighten-2">
-                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                </a>
-                            </td>
-                        </tr>
+                    {% for Participations in Associations %}
+                        {% for participation in Participations %}
+                            <tr>
+                                <td class="col s3">{{ participation.date_crea|date('d/m/Y') }}</td>
+                                <td class="col s3">{{ participation.association_id.nom }}</td>
+                                <td class="col s3">{{ participation.user_id.nom }} {{ participation.user_id.prenom }}</td>
+                                <td class="col s3">
+                                    <a href="{{path('delete_participation',{'id':participation.id})}}" class="orange-text text-lighten-2">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>

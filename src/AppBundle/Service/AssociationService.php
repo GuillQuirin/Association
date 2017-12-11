@@ -28,15 +28,15 @@ class AssociationService
         $association = $em->getRepository('AppBundle:Association')->findOneBy(["id" => $id]);
         $em->remove($association);
         $em->flush();
-        $this->addFlash('success', "Assiciation a bien été supprimé");
+        $this->addFlash('success', "L'association a bien été supprimée");
     }
     public function save(EntityManager $em){
       
     }
-    public function getById(EntityManager $em,$id)
-    {
-       
-    }
+    
+    public function getById(EntityManager $em, $id){
+        return $em->getRepository('AppBundle:Association')->findOneBy($id);
+    } 
 
     public function getProducts(EntityManager $em){
        

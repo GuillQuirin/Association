@@ -10,48 +10,48 @@ namespace AppBundle\Form;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+use AppBundle\Service\User;
+use AppBundle\Service\UserService;
+
 class ParticipationForm extends AbstractType{
+    
     /**
      * @param FormBuilderInterface $builder
-     * @param array $option
+     * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        /*$builder
-                 ->add('user_id', ChoiceType::class, [
+
+        $builder->add('user_id', ChoiceType::class, [
                     'label'=>'Eleve',
                     'required'=>true,
-                    'multiple'      => true,
-                    'choices' => $listUsers
-                ])
-                ->add('association_id', ChoiceType::class, [
-                    'label'=>'Eleve',
-                    'required'=>true,
-                    'multiple'      => true,
-                    'choices' => $listAssoc
+                    'choices' => $options['data']['users']
                 ]);
-    
-        $builder->add('save', SubmitType::class, array('label' => "Enregistrer une nouvelle participation")); 
-        /*
-         Exemple de chox triés : 
-         $builder->add('stockStatus', ChoiceType::class, array(
-            'choices' => array(
-                'Main Statuses' => array(
-                    'Yes' => 'stock_yes',
-                    'No' => 'stock_no',
-                ),
-                'Out of Stock Statuses' => array(
-                    'Backordered' => 'stock_backordered',
-                    'Discontinued' => 'stock_discontinued',
-                ),
-            ),
-        ));
-        */
+
+        $builder->add('association_id', EntityType::class, array(
+                    'required' => true,                   
+                    'label' => 'Association',
+                    'class' => 'AppBundle:Staff',
+                    'query_builder' =>  function (EntityRepository $er) use ($options) {
+                                            //Un super-admin voit toutes les associations
+                                            if($options['data']['user']->getStatut() == 1)
+                                                return $er->createQueryBuilder('u');
+                                            else
+                                                return $er->createQueryBuilder('u')
+                                                        ->andWhere('u.user = :id')
+                                                        ->setParameter('id', $options['data']['user']->getId());
+                                        },
+                    'choice_value' => "association.id"
+                ));
     }
-    
+
     public function configureOption(OptionsResolver $resolver) {
-        $resolver->setDefaults(['data_class'=>'AppBundle\Entity\Participations']);
+        $resolver->setDefaults([
+            'data_class'=>'AppBundle\Entity\Participations'
+        ]);
     }
 }
