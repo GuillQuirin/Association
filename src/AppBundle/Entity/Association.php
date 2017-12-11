@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\AssociationRepository")
  * @ORM\Table(name="open_association")
  */
 
@@ -38,7 +38,7 @@ class Association{
 	public $is_active;
         
         /**
-    * @ORM\Column(type="string")
+    * @ORM\Column(type="string", nullable=true)
     */
 	protected $description;
 
