@@ -63,22 +63,52 @@ class StaffController extends Controller
         if($this->getUser() && $this->getUser()->getStatut()==1){
             $em = $this->getDoctrine()->getManager();
        		$eleve = $em->getRepository('AppBundle:User')->find($id);
+            $oldmdp = $eleve->getMdp();
+            $oldemail = $eleve->getEmail();
+    
             $form = $this->createForm(RegisterForm::class, $eleve);
             $form->handleRequest($request);
-            if($form->isValid()){
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($eleve);
-                $em->flush();
-                return $this->redirectToRoute('eleves');
+
+            if($form->isSubmitted() && $form->isValid()){
+                
+                $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+                $eleveBdd = $repository->findOneBy(
+                  ['email' => $request->get('register_form')['email']]
+                );
+
+                if($eleveBdd && $eleveBdd->getEmail()!==null && $oldemail!=$request->get('register_form')['email'] && $request->get('register_form')['email']==$eleveBdd->getEmail()){
+                    $this->addFlash(
+                        'error',
+                        'Erreur : Cette adresse email est déjà enregistrée.'
+                    );
+                }
+                else{
+                    $ecoder = $this->get("security.password_encoder");
+                    
+                    //Si l'utilisateur a décidé de changer de mot de passe
+                    if($eleve->getMdp() !== null && trim($eleve->getMdp()) !== "")
+                        $eleve->setMdp($ecoder->encodePassword($eleve, $eleve->getMdp()));
+                    else
+                        $eleve->setMdp($oldmdp);
+
+                    $em->persist($eleve);
+                    $em->flush();
+                    $this->addFlash(
+                        'success',
+                        'Modifications correctement enregistrées.'
+                    );
+                    return $this->redirectToRoute('eleves');
+                }
             }
+            
             return $this->render('open_eleve\editEleve.html.twig', [
                 'form'=>$form->createView(),
             ]);
         }
         else
-            return $this->render('default\NotAllowed.html.twig', []);
-        
+            return $this->render('default\NotAllowed.html.twig', []);   
     }
+
     
     /**
      * @Route("/eleve/delete/{id}", name="delete_user")
