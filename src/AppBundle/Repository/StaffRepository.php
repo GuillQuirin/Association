@@ -15,27 +15,28 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Staff;
+use Doctrine\ORM\EntityRepository;
 use AppBundle\Repository\AssociationRepository;
 use AppBundle\Entity\Association;
 
 
-class StaffRepository
+class StaffRepository extends EntityRepository
 {
-    public function getAssociationsByStaff(EntityManager $em, $query = []){
-        $staffs = $em->getRepository('AppBundle:Staff')->findBy(["user" => $query['user']]);
+    public function getAssociationsByStaff($query = []){
+        $staffs = $this->findBy(["user" => $query['user']]);
         if($staffs != null)
             return $staffs; 
         else
             return false;
     }
     
-    public function getAll(EntityManager $em)
+    public function getAll()
     {
            
     }
 
-    public static function delete(EntityManager $em, $id){
-        $participation = $em->getRepository('AppBundle:Participation')->findOneBy(["id" => $id]);
+    public static function delete($id){
+        $participation = $this->findOneBy(["id" => $id]);
         $em->remove($participation);
         $em->flush();
     }

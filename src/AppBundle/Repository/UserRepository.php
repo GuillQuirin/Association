@@ -14,18 +14,19 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 use AppBundle\Entity\User;
 
 
-class UserRepository
+class UserRepository extends EntityRepository
 {
-    public function getById(EntityManager $em, $id){
-    	return $em->getRepository('AppBundle:User')->findOneBy($id);
+    public function getById($id){
+    	return $this->findOneBy($id);
     } 
 
-    public function getAllUsersByProm(EntityManager $em)
+    public function getAllUsersByProm()
     {
-        $users = $em->getRepository('AppBundle:User')->findBy([], ['annee' => 'ASC']);
+        $users = $this->findBy([], ['annee' => 'ASC']);
         $list = [];
         $oldkey = null;
         foreach ($users as $key => $user) {

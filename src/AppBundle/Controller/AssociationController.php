@@ -108,11 +108,12 @@ class AssociationController extends Controller
     {
         if($this->getUser() && $this->getUser()->getStatut()==1){
             $em = $this->getDoctrine()->getManager();
-            AssociationRepository::delete($em, $id);
+            $em->remove($em->getRepository(Association::class)->getById(['id' => $id]));
+            $em->flush();
             return $this->redirectToRoute('associations', []);
-        }else{
-            return $this->render('default\NotAllowed.html.twig', []);
         }
+        else
+            return $this->render('default\NotAllowed.html.twig', []);
     }    
 
 }

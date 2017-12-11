@@ -29,7 +29,8 @@ class StaffController extends Controller
     public function indexAction(Request $request)
     {
     	$em = $this->getDoctrine()->getManager();
-    	$associations = StaffRepository::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+    	$associations = $em->getRepository(Staff::class)
+                          ->getAssociationsByStaff(["user" => $this->getUser()->getId()]);
 
      	if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations)))
      		return $this->render('open_staff/admin.html.twig', ['associations' => $associations]);
@@ -62,7 +63,7 @@ class StaffController extends Controller
     {
         if($this->getUser() && $this->getUser()->getStatut()==1){
             $em = $this->getDoctrine()->getManager();
-       		$eleve = $em->getRepository('AppBundle:User')->find($id);
+       		  $eleve = $em->getRepository('AppBundle:User')->find($id);
             $oldmdp = $eleve->getMdp();
             $oldemail = $eleve->getEmail();
     
@@ -115,13 +116,33 @@ class StaffController extends Controller
      */
     public function supprimerEleveAction($id, Request $request)
     {
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Amis');
-        // query for a single product matching the given name and price
-        $eleve = $repository->find($id);
         $em = $this->getDoctrine()->getManager();
-        $em->remove($eleve);
-        $em->flush();
-        $this->addFlash('success', "Correctement supprimé");
+        $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+        
+        //suppression des participations
+        $participations = $em->getRepository(Participations::class)
+                              ->getParticipationsByUser($id);
+        if($participations){
+          foreach ($participations as $participation)
+            $em->remove($participation);
+        }
+
+        //suppression des responsabilites
+        $staffs = $em->getRepository(Staff::class)
+                      ->getAssociationsByStaff(['user' => $id]);
+        if($staffs){
+          foreach ($staffs as $staff)
+            $em->remove($staff);
+        }
+
+        //suppression du compte
+        $eleve = $repository->find($id);
+        
+        if($eleve){
+          $em->remove($eleve);
+          $em->flush();
+          $this->addFlash('success', "Correctement supprimé");
+        }
         return $this->redirectToRoute('eleves');
 
     }
@@ -131,50 +152,50 @@ class StaffController extends Controller
      */
     public function participationsAction(Request $request)
     {
-    	$em = $this->getDoctrine()->getManager();
-        $associations = StaffRepository::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+    	  $em = $this->getDoctrine()->getManager();
+        $associations = $em->getRepository(Staff::class)
+                            ->getAssociationsByStaff(["user" => $this->getUser()->getId()]);
 
         if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations))){
-            $em = $this->getDoctrine()->getManager();
-            $listUsers = UserRepository::getAllUsersByProm($em);
+            $listUsers = $em->getRepository(User::class)
+                            ->getAllUsersByProm();
+
+            $participation = new Participations();
+              $form = $this->createForm(ParticipationForm::class, ["user" => $this->getUser(), "users" => $listUsers]);
+            $form->handleRequest($request);
+
+            $array = [];
 
             //Si l'utilisateur est bien responsable d'une association :
             if(!empty($associations)){
-	            $participation = new Participations();
-	            $form = $this->createForm(ParticipationForm::class, ["user" => $this->getUser(), "users" => $listUsers]);
-	            $form->handleRequest($request);
 				
-				if($form->isSubmitted()){
-					if($form->isValid()){
-		                $em->persist($participation);
-                        
-                        $participation->setUser_id(UserRepository::getById($em, [
-                            'id' => $request->get('participation_form')['user_id']
-                        ]));
-                        
-                        $participation->setAssociation_id(AssociationRepository::getById($em, [
-                            'id' => $request->get('participation_form')['association_id']
-                        ]));
-                        
-		                $em->flush();
-		                $this->addFlash('success', "La participation a bien été créée");
-		            }
-	            	else
-	            		$this->addFlash('error', "Erreur lors de la création de la participation");
-	            }
+      				if($form->isSubmitted()){
+      					if($form->isValid()){
+  		                $em->persist($participation);
+                      
+                      $user_id = $em->getRepository(User::class)->getById(['id' => $request->get('participation_form')['user_id']]);
+                      $participation->setUser_id($user_id);
+                          
+                      $association_id = $em->getRepository(Association::class)->getById(['id' => $request->get('participation_form')['association_id']]);
+                      $participation->setAssociation_id($association_id);
+                          
+  		                $em->flush();
+  		                $this->addFlash('success', "La participation a bien été créée");
+  		            }
+  	            	else
+  	            		$this->addFlash('error', "Erreur lors de la création de la participation");
+  	            }
 
-	            $query = [
-	            	'staff_assocs' => $associations
-	            ];
+  	            $query = [
+  	            	'staff_assocs' => $associations
+  	            ];
 
                 //Liste des participations pour chaque association que l'utilisateur administre
-	            $array = [
-	            	'form_add' => $form->createView(),
-	            	'Associations' => ParticipationsRepository::getParticipationsBy($em, $query)
-	            ];
-	            
-	            return $this->render('open_participations/listeParticipations.html.twig', $array);
-	        }
+  	            $array['Associations'] = $em->getRepository(Participations::class)->getParticipationsBy($query);
+	          }
+
+          $array['form_add'] = $form->createView();
+          return $this->render('open_participations/listeParticipations.html.twig', $array);
         }
         
         return $this->render('default\NotAllowed.html.twig', []);
@@ -186,11 +207,12 @@ class StaffController extends Controller
     public function deleteParticipationsAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $associations = StaffRepository::getAssociationsByStaff($em, ["user" => $this->getUser()->getId()]);
+        $associations = $em->getRepository(Staff::class)->getAssociationsByStaff(["user" => $this->getUser()->getId()]);
 
         if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations))){
             $em = $this->getDoctrine()->getManager();
-            ParticipationsRepository::delete($em, $id);
+            $em->remove($em->getRepository(Participations::class)->getById(['id' => $id]));
+            $em->flush();
             $this->addFlash('success', "La participation a bien été supprimée");
             return $this->redirectToRoute('participations');
         }
