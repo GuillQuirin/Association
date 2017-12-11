@@ -23,6 +23,13 @@ and open the template in the editor.
     color : #cccc00;
     text-decoration: none;   
 }
+.link a{
+    background: #00ccff;
+}
+.link a:hover, .link a:focus{
+    color : #cccc00;
+    text-decoration: none;   
+}
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
     background:#cccc00;
 }
@@ -31,4 +38,9 @@ and open the template in the editor.
 }
 .yellow{
     Background : #cccc00;
+}
+
+.thumbnail .caption {
+    padding: none; 
+    color: none; 
 }
