@@ -11,5 +11,18 @@ and open the template in the editor.
     background: #FFFFFF;
 }
 .lien{
-    color : #006699;
+    color : #cccc00;
+}
+.card{
+    border: solid #cccc00;
+}
+.lien a{
+    color : #cccc00;
+}
+.lien a:hover, .lien a:focus{
+    color : #cccc00;
+    text-decoration: none;   
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+    background:#cccc00;
 }

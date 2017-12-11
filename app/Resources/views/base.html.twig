@@ -6,8 +6,9 @@
         <title>{% block title %}OPEN ESGI{% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
         <style>
             .navbar-left img{
                 height: 100px;
@@ -49,7 +50,7 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" style="border-bottom:solid #cccc00">
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
               <div class="navbar-header">
@@ -63,9 +64,11 @@
                     <img src="{{ asset('img/logo.png') }}" alt="logo">
                 </a>
               </div>
-              <a class="pull-left" href="{{ url('homepage') }}">
-                <h1 class=""> ESGI OPEN</h1>
-              </a>
+                <h1 class="lien"> 
+                    <a class="pull-left" href="{{ url('homepage') }}">
+                      ESGI OPEN
+                    </a>
+                </h1>
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <div class="nav navbar-nav navbar-right top">
