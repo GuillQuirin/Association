@@ -63,8 +63,8 @@
                     <img src="{{ asset('img/logo.png') }}" alt="logo">
                 </a>
               </div>
-              <a class="" href="{{ url('homepage') }}">
-                <h1 class="navbar-brand"> ESGI OPEN</h1>
+              <a class="pull-left" href="{{ url('homepage') }}">
+                <h1 class=""> ESGI OPEN</h1>
               </a>
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -93,7 +93,7 @@
                         <p>
                             Bonjour
                             <a class="lien" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
-                            {% if app.user.statut is defined and app.user.statut == 1 %}
+                            {% if app.user.statut is defined and app.user.statut == 1  %}
                                 <a class="btn btn-default" href="{{ url('admin') }}"><span class="glyphicon glyphicon-cog"></span></a>
                             {% endif %}
                             <a class="btn btn-default" href="{{ url('logout') }}"><span class="glyphicon glyphicon-off"></span></a>
