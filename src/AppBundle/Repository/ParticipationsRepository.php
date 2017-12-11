@@ -19,11 +19,6 @@ use AppBundle\Entity\Participations;
 
 class ParticipationsRepository
 {
-
-    public function save(EntityManager $em){
-      
-    }   
-
     public function getParticipationsBy(EntityManager $em, array $query = []){
         if(isset($query['staff_assocs'])){
             $participation = [];

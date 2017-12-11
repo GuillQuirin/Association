@@ -21,11 +21,6 @@ use AppBundle\Entity\Association;
 
 class StaffRepository
 {
-    
-    public function save(EntityManager $em){
-      
-    }   
-
     public function getAssociationsByStaff(EntityManager $em, $query = []){
         $staffs = $em->getRepository('AppBundle:Staff')->findBy(["user" => $query['user']]);
         if($staffs != null)

@@ -19,10 +19,6 @@ use AppBundle\Entity\User;
 
 class UserRepository
 {
-    public function save(EntityManager $em){
-      
-    }   
-
     public function getById(EntityManager $em, $id){
     	return $em->getRepository('AppBundle:User')->findOneBy($id);
     } 
