@@ -11,13 +11,13 @@
  *
  * @author Sanae BELHAJ
  */
-namespace AppBundle\Service;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Association;
 
 
-class AssociationService
+class AssociationRepository
 {
     public $id;
     public $nom;
@@ -38,14 +38,6 @@ class AssociationService
         return $em->getRepository('AppBundle:Association')->findOneBy($id);
     } 
 
-    public function getProducts(EntityManager $em){
-       
-
-    }
-    public function getProductsByName(EntityManager $em, $query)
-    {
-        
-    }
     public function getAll(EntityManager $em)
     {
        

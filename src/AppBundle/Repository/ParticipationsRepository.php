@@ -11,19 +11,14 @@
  *
  * @author Guillaume QUIRIN
  */
-namespace AppBundle\Service;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\Participations;
 
 
-class ParticipationsService
+class ParticipationsRepository
 {
-
-    public function save(EntityManager $em){
-      
-    }   
-
     public function getParticipationsBy(EntityManager $em, array $query = []){
         if(isset($query['staff_assocs'])){
             $participation = [];

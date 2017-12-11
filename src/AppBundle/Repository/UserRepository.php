@@ -11,18 +11,14 @@
  *
  * @author Guillaume QUIRIN
  */
-namespace AppBundle\Service;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Entity\User;
 
 
-class UserService
+class UserRepository
 {
-    public function save(EntityManager $em){
-      
-    }   
-
     public function getById(EntityManager $em, $id){
     	return $em->getRepository('AppBundle:User')->findOneBy($id);
     } 
