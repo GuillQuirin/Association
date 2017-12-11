@@ -6,6 +6,7 @@
         <title>{% block title %}OPEN ESGI{% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('DataTables/datatables.min.css') }}">
         <style>
             .navbar-left img{
@@ -91,13 +92,13 @@
                     {% else %}
                         <p>
                             Bonjour
-                            <a class="" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
-                        </p>
-                        <p>
-                            {# {% if app.user.statut is defined and app.user.statut == 1 %} #}
-                                <a class="" href="{{ url('admin') }}">Administration</a>
-                            {# {% endif %} #}
-                            <a class="" href="{{ url('logout') }}">Se déconnecter</a>
+                            <a class="lien" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
+                            {% if app.user.statut is defined and app.user.statut == 1 %}
+                                <a class="btn btn-default" href="{{ url('admin') }}"><span class="glyphicon glyphicon-cog"></span></a>
+                            {% endif %}
+                            <a class="btn btn-default" href="{{ url('logout') }}"><span class="glyphicon glyphicon-off"></span></a>
+
+                           
                         </p>
                     {% endif %}
                 </div>
@@ -146,9 +147,12 @@
                 </div>
             </form>
         </div>
+                <br>
+                <br>
+                <br>
         <footer>
-            <div>
-                //footer
+            <div class="panel-footer">
+                <p><center>Esgi - &copy</center></p>
             </div>
         </footer>
         {% block javascripts %}
@@ -160,6 +164,9 @@
             $('#myModal').on('shown.bs.modal', function () {
               $('#myInput').focus()
             });
+            $('#details').on('shown.bs.modal', function () {
+                $('#myInput').focus()
+              })
             </script>
         {% endblock %}
     </body>

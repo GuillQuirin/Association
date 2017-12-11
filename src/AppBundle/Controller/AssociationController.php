@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Association;
 use AppBundle\Entity\Participations;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Staff;
 use AppBundle\Service\AssociationService;
 use AppBundle\Form\AssociationForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -77,17 +78,24 @@ class AssociationController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $association = $em->getRepository('AppBundle:Association')->find($id);
+        $reponsables = $em->getRepository('AppBundle:Staff')->findBy(array('association'=>$id));
         $participants = $em->getRepository('AppBundle:Participations')->findBy(array('association_id'=>$id));
         $users= array();
         foreach ($participants as $participant){
            // var_dump($participant->getUser_id());
             $users[] = $em->getRepository('AppBundle:User')->find($participant->getUser_id());
         }
+        $respo= array();
+        foreach ($reponsables as $reponsable){
+           // var_dump($participant->getUser_id());
+            $respo[] = $em->getRepository('AppBundle:User')->find($reponsable->getUser());
+        }
         
        
         return $this->render('open_association\showAssociation.html.twig', [
             'association'=>$association,
             'users'=>$users,
+            'responsables'=>$respo,
             
         ]);
     }

@@ -34,7 +34,7 @@ class Staff {
     */
     public $user;
 
-	/**
+    /**
     * @var \DateTime
     *
     * @ORM\Column(type="date")
@@ -44,12 +44,12 @@ class Staff {
     public function getId(){return $this->id;}
     public function getAssociation(){return $this->association;}
     public function getUser(){return $this->user;}
-	public function getCreated_at(){return $this->created_at;}
+    public function getCreated_at(){return $this->created_at;}
 
-	public function setId($id){$this->id = $id;}
+    public function setId($id){$this->id = $id;}
     public function setAssociation($association){$this->association = $association;}
     public function setUser($user){$this->user = $user;}
-	public function setCreated_at($created_at){$this->created_at = $created_at;}
+    public function setCreated_at($created_at){$this->created_at = $created_at;}
 
     public function __toString()
     {
