@@ -24,13 +24,16 @@ class RegisterForm extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('ecole', ChoiceType::class,['label' => ' ',
-                                                    'attr' => ['placeholder' => 'Ecole'], 
+                                                    'attr' => [
+                                                        'placeholder' => 'Ecole',
+                                                         'class'=>'form-control'
+                                                        ], 
                                                     'choices' => [
                                                         'ESGI' => 'ESGI',
                                                      ]
                                                     ])
                 ->add('annee', ChoiceType::class,[  'label' => ' ',
-                                                        'placeholder' => false, 
+                                                        'placeholder' => false,
                                                         'choices' => [
                                                             'Selectionnez votre promotion' => '',
                                                             '1ere année Initiale' => '1I',
@@ -42,16 +45,28 @@ class RegisterForm extends AbstractType{
                                                             '4eme année Alternance' => '4A',
                                                             '5eme année Alternance' => '5A'
                                                         ],
+                                                       'attr' => [
+                                                            'class'=>'form-control'
+                                                        ],
                                                         'required' => true
                                                     ])
                 ->add('nom', TextType::class, [ 'label' => ' ',
-                                                    'attr' => ['placeholder' => 'Nom']
+                                                    'attr' => [
+                                                        'placeholder' => 'Nom',
+                                                        'class'=>'form-control'
+                                                        ]
                                                     ])
                 ->add('prenom', TextType::class, [ 'label' => ' ',
-                                                        'attr' => ['placeholder' => 'Prenom']
+                                                        'attr' => [
+                                                            'placeholder' => 'Prenom',
+                                                            'class'=>'form-control'
+                                                            ]
                                                     ])
                 ->add('email', EmailType::class, [ 'label' => ' ',
-                                                        'attr' => ['placeholder' => 'email']
+                                                        'attr' => [
+                                                            'placeholder' => 'email',
+                                                            'class'=>'form-control'
+                                                            ]
                                                     ]);
 
         //Inscription : on demande les mots de passe
@@ -59,7 +74,7 @@ class RegisterForm extends AbstractType{
             $builder->add('mdp', PasswordType::class, [ 
                                                 'type' => PasswordType::class,
                                                 'invalid_message' => 'Les mots de passe doivent correspondre.',
-                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'options' => array('attr' => array('class' => 'password-field form-control')),
                                                 'required' => true,
                                                 'first_options'  => array('label' => 'Mot de passe'),
                                                 'second_options' => array('label' => 'Confirmez le mot de passe'),
@@ -67,19 +82,22 @@ class RegisterForm extends AbstractType{
                     ->add('mdp', RepeatedType::class, [ 
                                                 'type' => PasswordType::class,
                                                 'invalid_message' => 'Les mots de passe doivent correspondre.',
-                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'options' => array('attr' => array('class' => 'password-field form-control')),
                                                 'required' => true,
                                                 'first_options'  => array('label' => 'Mot de passe'),
                                                 'second_options' => array('label' => 'Confirmez le mot de passe'),
                                             ]);
-            $builder->add('save', SubmitType::class, array('label' => "Enregistrer")); 
+            $builder->add('save', SubmitType::class, array(
+                'label' => "Enregistrer",
+                'attr' => array('class' => 'btn btn-primary')
+)); 
         }
         //Modification du compte
         else{
             $builder->add('mdp', PasswordType::class, [ 
                                                 'type' => PasswordType::class,
                                                 'invalid_message' => 'Les mots de passe doivent correspondre.',
-                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'options' => array('attr' => array('class' => 'password-field form-control')),
                                                 'required' => false,
                                                 'first_options'  => array('label' => 'Nouveau mot de passe'),
                                                 'second_options' => array('label' => 'Confirmez le nouveau mot de passe'),
@@ -87,12 +105,15 @@ class RegisterForm extends AbstractType{
                     ->add('mdp', RepeatedType::class, [ 
                                                 'type' => PasswordType::class,
                                                 'invalid_message' => 'Les mots de passe doivent correspondre.',
-                                                'options' => array('attr' => array('class' => 'password-field')),
+                                                'options' => array('attr' => array('class' => 'password-field form-control')),
                                                 'required' => false,
                                                 'first_options'  => array('label' => 'Nouveau mot de passe'),
                                                 'second_options' => array('label' => 'Confirmez le nouveau mot de passe'),
                                             ]);
-            $builder->add('save', SubmitType::class, array('label' => "Mettre à jour")); 
+            $builder->add('save', SubmitType::class, array(
+                'label' => "Mettre à jour",
+                'attr' => array('class' => 'btn btn-primary')
+                )); 
         }       
     }
 

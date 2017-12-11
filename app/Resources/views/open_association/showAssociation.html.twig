@@ -14,13 +14,20 @@
                     <div class="panel-body">
                         <h4><center>{{association.nom}}</center></h3>
                         <br>
-                        Description : {{association.description}}
+                        <b>Description :</b> {{association.description}}
                         <br>
-                         Disponible ce jeudi : {% if association.is_active == 1 %}
+                        <b>Disponible ce jeudi :</b> {% if association.is_active == 1 %}
                                           <span class="glyphicon glyphicon-ok"></span>
                                         {% else %}
                                            <span class="glyphicon glyphicon-ban-circle"></span>
                                         {% endif %}
+                        <br>
+                        <b>Responsables : </b>
+                        {% for responsable in responsables %}
+                            <span>{{responsable.nom}}</span>
+                            <span>{{responsable.prenom}}</span>
+                            <br>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
