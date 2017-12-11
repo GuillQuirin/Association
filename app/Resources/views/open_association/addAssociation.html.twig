@@ -2,12 +2,28 @@
 
 {% block body %}
     <div class="row">
-            <form method="post" enctype="multipart/form-data">
-                {{ form_widget(form) }}
-                 <div class="right">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Valider</button>
-               </div>
-            </form>
+        <div class="pull-right">
+            <a href="{{ path("associations")}}">Retour à la liste des associations <span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+        <div class="col-xs-3 col-md-3">
+        </div>
+        <div class="col-xs-6 col-md-6">
+            <div class="panel panel-default" style="border-color:#cccc00;">
+                    <div class="panel-heading" style="background: #cccc00;">
+                        <b>Ajouter une nouvelle association</b>
+                    </div>
+                    <div class="panel-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {{ form_widget(form) }}
+                             <div class="pull-right">
+                                <button class="btn btn-primary waves-effect waves-light" type="submit" name="action">Valider</button>
+                           </div>
+                        </form>
+                 </div>
+            </div>
+        </div>
+        <div class="col-xs-3 col-md-3">
+        </div>
     </div>
 {% endblock %}
 

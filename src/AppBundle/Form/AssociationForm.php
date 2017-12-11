@@ -29,10 +29,10 @@ class AssociationForm extends AbstractType{
                     ],
                 ])
                  ->add('is_active', CheckboxType::class, [
-                    'label'=>'disponible',
+                    'label'=>'disponible ',
                     'required'=>false,
                     'attr'=>[
-                        'class'=>'form-control'
+                        'class'=>'form-check-input'
                     ],
                 ])
                  ->add('description', TextareaType::class, [

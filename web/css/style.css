@@ -26,3 +26,9 @@ and open the template in the editor.
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
     background:#cccc00;
 }
+.yellow-text{
+    color : #cccc00;
+}
+.yellow{
+    Background : #cccc00;
+}
