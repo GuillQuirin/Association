@@ -29,12 +29,18 @@ class ParticipationForm extends AbstractType{
         $builder->add('user_id', ChoiceType::class, [
                     'label'=>'Eleve',
                     'required'=>true,
+                    'attr' => [
+                            'class'=>'form-control'
+                    ],
                     'choices' => $options['data']['users']
                 ]);
 
         $builder->add('association_id', EntityType::class, array(
                     'required' => true,                   
                     'label' => 'Association',
+                    'attr' => [
+                            'class'=>'form-control'
+                    ], 
                     'class' => 'AppBundle:Staff',
                     'query_builder' =>  function (EntityRepository $er) use ($options) {
                                             //Un super-admin voit toutes les associations

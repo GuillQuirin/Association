@@ -80,7 +80,7 @@
                                 <label for="password">Mot de passe :</label>
                                 <input class="form-control" type="password" id="password" name="_password" required>
                             </div>
-                             <button type="submit">login</button>
+                             <button class="btn btn-primary" type="submit">login</button>
                         </form>
                         {% if error is defined %}
                             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>

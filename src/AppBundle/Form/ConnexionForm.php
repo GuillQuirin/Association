@@ -21,10 +21,16 @@ class ConnexionForm extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                  ->add('mail', EmailType::class, [
-                    'label'=>'E-mail'
+                    'label'=>'E-mail',
+                     'attr' => [
+                            'class'=>'form-control'
+                    ],
                 ])
                  ->add('mdp', PasswordType::class, [
-                    'label'=>'Mot de passe'
+                    'label'=>'Mot de passe',
+                     'attr' => [
+                            'class'=>'form-control'
+                    ],
                 ]);
     }
     public function configureOption(OptionsResolver $resolver) {
