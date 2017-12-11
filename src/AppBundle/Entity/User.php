@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
  */
 
@@ -34,7 +34,13 @@ class User implements UserInterface{
 	/**
      * @ORM\Column(type="integer", nullable=true)
      */
-	protected $statut;
+	protected $statut = 0;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+
+    //protected $roles = ['ROLE_USER'];
 	/**
     * @ORM\Column(type="string", length=200)
     */
@@ -94,6 +100,13 @@ class User implements UserInterface{
 	public function getEcole(){return $this->ecole;}
 	public function getDate_crea(){return $this->date_crea;}
 
+    public function getRoles(){
+        if($this->getStatut() == 1)
+            return ['ROLE_USER', 'ROLE_ADMIN'];
+
+        return ['ROLE_USER'];
+    }
+
 	public function setId($id){$this->id = $id;}
 	public function setStatut($statut){$this->statut = $statut;}
 	public function setNom($nom){$this->nom = strtoupper(trim($nom));}
@@ -119,10 +132,6 @@ class User implements UserInterface{
 
     public function getPassword() {
         return $this->mdp;
-    }
-
-    public function getRoles() {
-        return array();
     }
 
     public function getSalt() {

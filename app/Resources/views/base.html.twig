@@ -96,7 +96,7 @@
                         <p>
                             Bonjour
                             <a class="lien" href="{{ url('account') }}">{{ app.user.prenom }} {{ app.user.nom }}</a>
-                            {% if app.user.statut is defined and app.user.statut == 1  %}
+                            {% if app.user.statut is defined %}
                                 <a class="btn btn-default" href="{{ url('admin') }}"><span class="glyphicon glyphicon-cog"></span></a>
                             {% endif %}
                             <a class="btn btn-default" href="{{ url('logout') }}"><span class="glyphicon glyphicon-off"></span></a>
