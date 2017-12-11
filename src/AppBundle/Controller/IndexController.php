@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use AppBundle\Service\EmailService;
+use AppBundle\Service\PasswordService;
 
 class IndexController extends Controller
 {
@@ -55,7 +56,7 @@ class IndexController extends Controller
     /**
      * @Route("/forget", name="forget")
      */
-    public function forgetAction(Request $request, EmailService $emailService)
+    public function forgetAction(Request $request, EmailService $emailSrv, PasswordService $passwordSrv)
     {
 
       $em = $this->getDoctrine()->getManager();
@@ -63,17 +64,10 @@ class IndexController extends Controller
       $eleve = $repository->findOneBy(
         ['email' => $request->get('email')]
       );
-      $ecoder = $this->get("security.password_encoder");
-
-      //Génération du nouveau mot de passe
-      $characters = '123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      $charactersLength = strlen($characters);
-      $newpwd = '';
-      
-      for ($i = 0; $i < 5; $i++)
-          $newpwd .= $characters[rand(0, $charactersLength - 1)];
 
       if(isset($eleve)){
+        $ecoder = $this->get("security.password_encoder");
+        $newpwd = $passwordSrv->createPwd();
         $eleve->setMdp($ecoder->encodePassword($eleve, $newpwd));
         $em->persist($eleve);
         $em->flush();
@@ -91,7 +85,7 @@ class IndexController extends Controller
             'mdp' => $newpwd
           ]
         ];
-        $envoi = $emailService->sendEmail($parameters, $front);
+        $envoi = $emailSrv->sendEmail($parameters, $front);
       }
 
       if(isset($envoi) && isset($eleve))
