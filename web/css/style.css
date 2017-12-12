@@ -45,3 +45,8 @@ and open the template in the editor.
     padding: none; 
     color: none; 
 }
+.panel-footer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
