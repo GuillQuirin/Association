@@ -22,7 +22,7 @@ class Fixtures implements FixtureInterface
         'nom'=> 'UserName',
         'prenom'=> 'UserFirstName',
         'email'=> 'email@email.fr',
-        'mdp'=> '1234',
+        'mdp'=> '$2y$13$1k.IiQw.mbY0zLxNPC/vseg9KLRgBxZbdQO7qxP6VK2Gzkn7F4OeW', // Mot de passe: 1234
         'annee'=> '1I',
         'ecole'=> 'ESGI'
     ];
@@ -31,11 +31,6 @@ class Fixtures implements FixtureInterface
         'nom'=> 'Association',
         'description'=> 'AssocDescription',
     ];
-
-    /*public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
-    }*/
 
     public function load(ObjectManager $manager)
     {
@@ -56,7 +51,7 @@ class Fixtures implements FixtureInterface
             $user->setEmail($this->infosUser['email']);
             
             //$encoder = $this->container->get("security.password_encoder");
-            //$user->setMdp($this->container->encodePassword($user, $this->infosUser['mdp']));
+            //$user->setMdp($this->encoder->encodePassword($user, $this->infosUser['mdp']));
             $user->setMdp($this->infosUser['mdp']);
             
             $user->setAnnee($this->infosUser['annee']);
