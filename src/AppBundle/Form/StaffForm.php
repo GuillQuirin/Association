@@ -28,7 +28,6 @@ class StaffForm extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         
-         
         $builder->add('user', EntityType::class, [
                     'label'=>'Eleve',
                     'required'=>true,
@@ -37,32 +36,15 @@ class StaffForm extends AbstractType{
                     ],
                     'class' => 'AppBundle:User',
                 ]);
-        /*$builder->add('user_id', ChoiceType::class, [
-                    'label'=>'Eleve',
-                    'required'=>true,
-                    'attr' => [
-                            'class'=>'form-control'
-                    ],
-                    'choices' => $options['data']['users']
-                ]);*/
-//dump($options['data']['assocs']);
-        $builder->add('association', EntityType::class, array(
+
+        $builder->add('association', ChoiceType::class, array(
                     'required' => true,                   
                     'label' => 'Association',
                     'attr' => [
                             'class'=>'form-control'
                     ], 
-                    'class' => 'AppBundle:Staff',
-                    //'choice_value' => $options['data']['assocs']
+                    'choices' => $options['data']['assocs']
                 ));
-        /*$builder->add('association', EntityType::class, array(
-                    'required' => true,                   
-                    'label' => 'Association',
-                    'attr' => [
-                            'class'=>'form-control'
-                    ], 
-                    'class' => 'AppBundle:Association',
-                ));*/
     }
 
     public function configureOption(OptionsResolver $resolver) {

@@ -25,7 +25,7 @@
                  </div>
             </div>
             </div>
-            <table class="table table-striped datatable_esgi">
+            <table id="" class="table table-striped datatable_esgi">
                 <thead>
                     <tr>
                         <th>Nom d'association</th>
@@ -39,9 +39,6 @@
                             <td class="col s3">{{responsable.association.nom}}</td>
                             <td class="col s3">
                                {{responsable.user.prenom}}   {{responsable.user.nom}}
-                            </td>
-                            <td class="col s3">
-                               
                             </td>
                             <td class="col s3">
                                 <a href="{{path('delete_responsable',{'id_user':responsable.user.id, 'id_association':responsable.association.id})}}" class="orange-text text-lighten-2">

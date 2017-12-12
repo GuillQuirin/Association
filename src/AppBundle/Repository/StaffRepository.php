@@ -14,10 +14,10 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Staff;
 use Doctrine\ORM\EntityRepository;
 use AppBundle\Repository\AssociationRepository;
 use AppBundle\Entity\Association;
+use AppBundle\Entity\Staff;
 
 
 class StaffRepository extends EntityRepository
@@ -33,6 +33,12 @@ class StaffRepository extends EntityRepository
     public function getResponsibilitiesByAssoc($assoc_id){
         $responsibilities = $this->findBy(['association' => $assoc_id]);
         return $responsibilities;
+    }
+
+    public function isStaffExists(Staff $staff){
+        $exists = $this->findBy(['association' => $staff->getAssociation(), 'user' => $staff->getUser()]);
+        dump($exists);
+        return $exists;
     }
 
     public static function delete($id){

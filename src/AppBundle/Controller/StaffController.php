@@ -45,24 +45,38 @@ class StaffController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $listAssocs = $em->getRepository(Association::class)->getAll();
+        $listAssocs = $em->getRepository(Association::class)->getAllAssocs();
         $listUsers = $em->getRepository(User::class)->getAllUsersByProm();
-        
+
         $staff = new Staff();
-        $form = $this->createForm(StaffForm::class, $staff);
+        $form = $this->createForm(StaffForm::class, ["assocs" => $listAssocs, "users" => $listUsers]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-          //  $repository = $this->getDoctrine()->getRepository('AppBundle:User');
-           
+          
+          $staff->setUser($em->getRepository(User::class)
+                                    ->getById(['id' => $request->get('staff_form')['user']]));
+          $staff->setAssociation($em->getRepository(Association::class)
+                                    ->getById(['id' => $request->get('staff_form')['association']]));
+          $staffBDD = $em->getRepository(Staff::class)->isStaffExists($staff);
+          
+          if($staffBDD)
+            $this->addFlash(
+                        'error',
+                        'Erreur : Cet utilisateur est déjà responsable de cette association.'
+                    );
+          else{
+            $em->persist($staff);
+            $em->flush();
+            $this->addFlash(
+                'success',
+                "Cet utilisateur est désormais responsable d'une nouvelle association."
+            );
+          }
         }
+
     	$em = $this->getDoctrine()->getManager();
     	$responsables = $em->getRepository('AppBundle:Staff')->findAll();
-        /*foreach($responsables as $responsable){
-            $user = $em->getRepository('AppBundle:User')->find($responsable->);
-            $association = $em->getRepository('AppBundle:Association')->findAll();
-            
-        }*/
 
      	if($this->getUser() && $this->getUser()->getStatut()==1)
      		return $this->render('open_staff/listeResponsable.html.twig', [
