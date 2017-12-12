@@ -37,9 +37,14 @@ class Staff {
     /**
     * @var \DateTime
     *
-    * @ORM\Column(type="date")
+    * @ORM\Column(type="datetime")
     */
 	protected $created_at;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+    }
 
     public function getId(){return $this->id;}
     public function getAssociation(){return $this->association;}

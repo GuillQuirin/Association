@@ -35,7 +35,7 @@ class Association{
     /**
     * @ORM\Column(type="boolean", options={"default":0})
     */
-	public $is_active;
+	public $is_active = 0;
         
         /**
     * @ORM\Column(type="string", nullable=true)
@@ -60,5 +60,6 @@ class Association{
 
 	public function setId($id){$this->id = $id;}
 	public function setNom($nom){$this->nom = $nom;}
+	public function setIs_active($is_active){return $this->is_active = $is_active;}
 	public function setDescription($description){$this->description = $description;}
 }
