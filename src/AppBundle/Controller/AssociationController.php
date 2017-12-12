@@ -127,6 +127,7 @@ class AssociationController extends Controller
         }
         else
             return $this->render('default\NotAllowed.html.twig', []);
-    }    
+    }   
+    
 
 }

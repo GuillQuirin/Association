@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+                     
+        <div class="col-xs-12 col-md-12">
+            <a class="btn btn-default" href="{{ url('admin') }}">Retour à l'interface d'admin</a>
+            <div>
+                <div class="panel panel-default" style="border-color:#cccc00;">
+                    <div class="panel-heading" style="background: #cccc00;">
+                        <b>Ajouter une nouvelle association</b>
+                    </div>
+                    <div class="panel-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {{ form_widget(form) }}
+                             <div class="pull-right">
+                                <button class="btn btn-primary waves-effect waves-light" type="submit" name="action">Valider</button>
+                           </div>
+                        </form>
+                 </div>
+            </div>
+            </div>
+            <table class="table table-striped datatable_esgi">
+                <thead>
+                    <tr>
+                        <th>Nom d'association</th>
+                        <th>Nom de responsable</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for responsable in responsables %}
+                        <tr>
+                            <td class="col s3">{{responsable.association.nom}}</td>
+                            <td class="col s3">
+                               {{responsable.user.prenom}}   {{responsable.user.nom}}
+                            </td>
+                            <td class="col s3">
+                               
+                            </td>
+                            <td class="col s3">
+                                <a href="{{path('delete_responsable',{'id_user':responsable.user.id, 'id_association':responsable.association.id})}}" class="orange-text text-lighten-2">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

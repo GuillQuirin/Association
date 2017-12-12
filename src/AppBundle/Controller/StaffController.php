@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Code;
 use Doctrine\ORM\EntityManagerInterface;
 use AppBundle\Form\RegisterForm;
+use AppBundle\Form\StaffForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,40 @@ class StaffController extends Controller
 
      	if($this->getUser() && ($this->getUser()->getStatut()==1 || !empty($associations)))
      		return $this->render('open_staff/admin.html.twig', ['associations' => $associations]);
+     	else
+     		return $this->render('default\NotAllowed.html.twig', []);
+    }
+    /**
+     * @Route("/responsables", name="responsables")
+     */
+    public function responsableAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $listAssocs = $em->getRepository(Association::class)->getAll();
+        $listUsers = $em->getRepository(User::class)->getAllUsersByProm();
+        
+        $staff = new Staff();
+        $form = $this->createForm(StaffForm::class, $staff);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+          //  $repository = $this->getDoctrine()->getRepository('AppBundle:User');
+           
+        }
+    	$em = $this->getDoctrine()->getManager();
+    	$responsables = $em->getRepository('AppBundle:Staff')->findAll();
+        /*foreach($responsables as $responsable){
+            $user = $em->getRepository('AppBundle:User')->find($responsable->);
+            $association = $em->getRepository('AppBundle:Association')->findAll();
+            
+        }*/
+
+     	if($this->getUser() && $this->getUser()->getStatut()==1)
+     		return $this->render('open_staff/listeResponsable.html.twig', [
+                    'responsables' => $responsables,
+                    'form' => $form->createView()
+                    ]);
      	else
      		return $this->render('default\NotAllowed.html.twig', []);
     }
@@ -219,4 +254,19 @@ class StaffController extends Controller
 
         return $this->render('default\NotAllowed.html.twig', []);
     }
+    /**
+     * @Route("/responsable/delete/{id_user}/{id_association}", name="delete_responsable")
+     */
+    public function deleteResponsableAction(Request $request, $id_user, $id_association)
+    {
+        if($this->getUser() && $this->getUser()->getStatut()==1){
+            $em = $this->getDoctrine()->getManager();
+            $reponsables = $em->getRepository('AppBundle:Staff')->findOneBy(array('association'=>$id_association,'user'=>$id_user));
+            $em->remove($reponsables);  
+            $em->flush();
+            return $this->redirectToRoute('responsables', []);
+        }
+        else
+            return $this->render('default\NotAllowed.html.twig', []);
+    }   
 }

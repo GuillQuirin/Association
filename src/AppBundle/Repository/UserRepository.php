@@ -37,4 +37,6 @@ class UserRepository extends EntityRepository
         }
         return $list;
     }
+
+    
 }

@@ -40,4 +40,5 @@ class StaffRepository extends EntityRepository
         $em->remove($participation);
         $em->flush();
     }
+
 }

@@ -43,4 +43,15 @@ class AssociationRepository extends EntityRepository
     {
        return $this->findAll();
     }
+    
+    public function getAllAssocs()
+    {
+        $assocs = $this->findBy([]);
+        $list = [];
+        $oldkey = null;
+        foreach ($assocs as $key => $assoc)       	
+            $list[$assoc->getNom()] = $assoc->getId();
+    
+        return $list;
+    }
 }
