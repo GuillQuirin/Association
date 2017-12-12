@@ -16,6 +16,8 @@ and open the template in the editor.
 .card{
     border: solid #cccc00;
     min-height: 100px;
+    padding:12px;
+    border-radius: 10px;
 }
 .lien a{
     color : #cccc00;
@@ -44,4 +46,8 @@ and open the template in the editor.
 .thumbnail .caption {
     padding: none; 
     color: none; 
+}
+.panel-footer{
+     Background : #cccc00;
+     border-color: #cccc00;
 }
