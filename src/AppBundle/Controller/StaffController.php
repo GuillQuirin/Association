@@ -141,7 +141,7 @@ class StaffController extends Controller
         if($eleve){
           $em->remove($eleve);
           $em->flush();
-          $this->addFlash('success', "Correctement supprimé");
+          $this->addFlash('success', "Suppression correctement effectuée.");
         }
         return $this->redirectToRoute('eleves');
 

@@ -41,6 +41,6 @@ class AssociationRepository extends EntityRepository
 
     public function getAll()
     {
-       
+       return $this->findAll();
     }
 }

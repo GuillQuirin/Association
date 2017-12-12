@@ -49,8 +49,6 @@ class IndexController extends Controller
         $lastUsername = $authUtils->getLastUsername();
         $em = $this->getDoctrine()->getManager();
         $session = $request->getSession();
-
-        //La redirection dynamique se fait dans security.yml
     }
 
     /**

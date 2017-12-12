@@ -30,9 +30,9 @@ class StaffRepository extends EntityRepository
             return false;
     }
     
-    public function getAll()
-    {
-           
+    public function getResponsibilitiesByAssoc($assoc_id){
+        $responsibilities = $this->findBy(['association' => $assoc_id]);
+        return $responsibilities;
     }
 
     public static function delete($id){
