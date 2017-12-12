@@ -63,7 +63,7 @@ class AssociationController extends Controller
         if($form->isValid()){
            $em->persist($association);
            $em->flush();
-           $this->addFlash('success', "Les informations de l'association ont correctement été modifiées.");
+           $this->addFlash('success', "Les informations de l'association ont été correctement modifiées.");
            return $this->redirectToRoute('associations', []);
         }
         return $this->render('open_association\addAssociation.html.twig', [
@@ -81,22 +81,17 @@ class AssociationController extends Controller
         $reponsables = $em->getRepository('AppBundle:Staff')->findBy(array('association'=>$id));
         $participants = $em->getRepository('AppBundle:Participations')->findBy(array('association_id'=>$id));
         $users= array();
-        foreach ($participants as $participant){
-           // var_dump($participant->getUser_id());
+        foreach ($participants as $participant)
             $users[] = $em->getRepository('AppBundle:User')->find($participant->getUser_id());
-        }
+
         $respo= array();
-        foreach ($reponsables as $reponsable){
-           // var_dump($participant->getUser_id());
-            $respo[] = $em->getRepository('AppBundle:User')->find($reponsable->getUser());
-        }
-        
+        foreach ($reponsables as $reponsable)
+            $respo[] = $em->getRepository('AppBundle:User')->find($reponsable->getUser());        
        
         return $this->render('open_association\showAssociation.html.twig', [
             'association'=>$association,
             'users'=>$users,
             'responsables'=>$respo,
-            
         ]);
     }
     
@@ -108,7 +103,25 @@ class AssociationController extends Controller
     {
         if($this->getUser() && $this->getUser()->getStatut()==1){
             $em = $this->getDoctrine()->getManager();
-            $em->remove($em->getRepository(Association::class)->getById(['id' => $id]));
+            
+            //suppression des participations
+            $participations = $em->getRepository(Participations::class)
+                                  ->getParticipationsByAssoc($id);
+            if($participations){
+              foreach ($participations as $participation)
+                $em->remove($participation);
+            }
+
+            //suppression des responsabilites
+            $responsibilities = $em->getRepository(Staff::class)
+                          ->getResponsibilitiesByAssoc($id);
+            if($responsibilities){
+              foreach ($responsibilities as $responsibility)
+                $em->remove($responsibility);
+            }
+
+            $association = $em->getRepository(Association::class)->getById(['id' => $id]);
+            $em->remove($association);
             $em->flush();
             return $this->redirectToRoute('associations', []);
         }

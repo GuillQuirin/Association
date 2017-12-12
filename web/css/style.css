@@ -48,6 +48,11 @@ and open the template in the editor.
     color: none; 
 }
 .panel-footer{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+.panel-footer{
      Background : #cccc00;
      border-color: #cccc00;
 }

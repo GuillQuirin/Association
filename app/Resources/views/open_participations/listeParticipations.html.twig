@@ -24,7 +24,7 @@
                             {% for participation in Participations %}
                                 <tr>
                                     <td class="col s3">{{ participation.date_crea|date('d/m/Y') }}</td>
-                                    <td class="col s3">{{ participation.association_id.nom }}</td>
+                                    <td class="col s3"><a href="{{path('show_association',{'id':participation.association_id.id})}}" class="">{{participation.association_id.nom}}</a></td>
                                     <td class="col s3">{{ participation.user_id.nom }} {{ participation.user_id.prenom }}</td>
                                     <td class="col s3">
                                         <a href="{{path('delete_participation',{'id':participation.id})}}" class="orange-text text-lighten-2">

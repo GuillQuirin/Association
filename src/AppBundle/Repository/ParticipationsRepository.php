@@ -35,6 +35,11 @@ class ParticipationsRepository extends EntityRepository
         return $participations;
     }
 
+    public function getParticipationsByAssoc($assoc_id){
+        $participations = $this->findBy(['association_id' => $assoc_id]);
+        return $participations;
+    }
+
     public function getById($id){
         return $this->findOneBy($id);
     } 

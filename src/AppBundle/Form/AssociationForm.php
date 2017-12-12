@@ -22,14 +22,14 @@ class AssociationForm extends AbstractType{
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
                  ->add('nom', TextType::class, [
-                    'label'=>'nom',
+                    'label'=>'Nom',
                     'required'=>true,
                     'attr'=>[
                         'class'=>'form-control'
                     ],
                 ])
                  ->add('is_active', CheckboxType::class, [
-                    'label'=>'disponible ',
+                    'label'=>'Active Jeudi prochain ? ',
                     'required'=>false,
                     'attr'=>[
                         'class'=>'form-check-input'
